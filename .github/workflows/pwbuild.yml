@@ -31,11 +31,9 @@ jobs:
         run: |
           mv -f /tmp/x86_64/* ${GITHUB_WORKSPACE}/x86_64
           cd ${GITHUB_WORKSPACE}/x86_64
-          ls -la ~
-          ls -la ${GITHUB_WORKSPACE}
-          ls -la /tmp
           repo-add --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst
           cd ${GITHUB_WORKSPACE}
+          git init
           
       - name: Push files
         uses: stefanzweifel/git-auto-commit-action@v4
