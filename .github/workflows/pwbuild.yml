@@ -34,6 +34,7 @@ jobs:
           repo-add --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst
           cd ${GITHUB_WORKSPACE}
           git init
+          git config --global --add safe.directory $(realpath .)
           
       - name: Push files
         uses: stefanzweifel/git-auto-commit-action@v4
