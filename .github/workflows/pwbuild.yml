@@ -24,7 +24,8 @@ jobs:
           useradd user -G wheel && echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
           chown user -R .
           echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"11AB43077E240E19EA773113128753272FB3D91D\"" >> /etc/makepkg.conf
-          git clone https://aur.archlinux.org/pipewire-full-git.git ./
+          git clone https://aur.archlinux.org/pipewire-full-git.git ./pw
+          cd ./pw
           su user -c "yes|PKGDEST=/tmp/pw makepkg --noconfirm -s"
           
       - name: Archive the artifacts
