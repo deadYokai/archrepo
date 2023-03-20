@@ -25,7 +25,10 @@ jobs:
           chown user -R .
           echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"11AB43077E240E19EA773113128753272FB3D91D\"" >> /etc/makepkg.conf
           su user -c "git clone https://aur.archlinux.org/pipewire-full-git.git /tmp/pw"
-          su user -c "cd /tmp/pw && yes|PKGDEST=~/x86_64 makepkg --noconfirm -s && cd ~/x86_64 && repo-add --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst"
+          su user -c "cd /tmp/pw && yes|PKGDEST=/tmp/x86_64 makepkg --noconfirm -s"
+          mv /tmp/x86_64/* ./x86_64
+          cd ./x86_64
+          repo-add --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst
           
       - name: Push files
         uses: stefanzweifel/git-auto-commit-action@v4
