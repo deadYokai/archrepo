@@ -24,13 +24,10 @@ jobs:
           useradd user -G wheel && echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
           chown user -R .
           echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"11AB43077E240E19EA773113128753272FB3D91D\"" >> /etc/makepkg.conf
-          su user -c "git clone https://aur.archlinux.org/pipewire-full-git.git ./pw"
-          su user -c "cd ./pw && yes|PKGDEST=/tmp/pw makepkg --noconfirm -s"
+          su user -c "git clone https://aur.archlinux.org/pipewire-full-git.git /tmp/pw"
+          su user -c "cd /tmp/pw && yes|PKGDEST=~/x86_64 makepkg --noconfirm -s && cd ~/x86_64 && repo-add --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst"
           
-      - name: Archive the artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: dump
-          path: /tmp/pw
+      - name: Push files
+        uses: stefanzweifel/git-auto-commit-action@v4
           
           
