@@ -50,8 +50,8 @@ jobs:
           su user -c "gpg --list-keys"
           su user -c "git clone https://aur.archlinux.org/pipewire-full-git.git /tmp/pw"
           echo "${{ secrets.PRIVATE_KEY }}" | base64 --decode > /tmp/key
-          echo "${{ secrets.GPG_PASS }}" gpg --import /tmp/key
-          su user -c "echo \"${{ secrets.GPG_PASS }}\" gpg --import /tmp/key"
+          echo "${{ secrets.GPG_PASS }}" | gpg --import /tmp/key
+          su user -c "echo \"${{ secrets.GPG_PASS }}\" | gpg --import /tmp/key"
           rm /tmp/key
           su user -c "cd /tmp/pw && yes|PKGDEST=/tmp/x86_64 makepkg --noconfirm -s"
           
