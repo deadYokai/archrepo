@@ -53,6 +53,8 @@ jobs:
           
       - name: Pack db
         run: |
+          chown user -R ${GITHUB_WORKSPACE}
+          chown user -R ${GITHUB_WORKSPACE}/x86_64
           su user -c "mv -f /tmp/x86_64/* ${GITHUB_WORKSPACE}/x86_64"
           ls -la ${GITHUB_WORKSPACE}
           su user -c "cd ${GITHUB_WORKSPACE}/x86_64 && repo-add -R -k 128753272FB3D91D --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst"
