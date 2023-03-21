@@ -29,11 +29,6 @@ jobs:
           useradd user -G wheel && echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
           mkdir /home/user
           chown user -R /home/user
-              
-      - uses: actions/checkout@v2
-          
-      - name: Compile
-        run: |
           chown user -R .
           chown user -R ${GITHUB_WORKSPACE}
           pacman-key --init
@@ -42,20 +37,26 @@ jobs:
           pacman-key --add ${GITHUB_WORKSPACE}/kitsune.gpg
           pacman-key --finger 128753272FB3D91D
           pacman-key --lsign-key 128753272FB3D91D
-          su user -c "git clone https://aur.archlinux.org/pipewire-full-git.git /tmp/pw"
-          su user -c "cd /tmp/pw && yes|PKGDEST=/tmp/x86_64 makepkg --noconfirm -s"
+          gpg --list-keys
+              
+#      - uses: actions/checkout@v2
           
-      - name: Pack db
-        run: |
-          su user -c "mv -f /tmp/x86_64/* ${GITHUB_WORKSPACE}/x86_64"
-          ls -la ${GITHUB_WORKSPACE}
-          su user -c "cd ${GITHUB_WORKSPACE}/x86_64 && repo-add -R -k 128753272FB3D91D --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst"
-          cd ${GITHUB_WORKSPACE}
+#       - name: Compile
+#         run: |
+#           su user -c "git clone https://aur.archlinux.org/pipewire-full-git.git /tmp/pw"
+#           su user -c "cd /tmp/pw && yes|PKGDEST=/tmp/x86_64 makepkg --noconfirm -s"
           
-      - name: Push files
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Repo update
+#       - name: Pack db
+#         run: |
+#           su user -c "mv -f /tmp/x86_64/* ${GITHUB_WORKSPACE}/x86_64"
+#           ls -la ${GITHUB_WORKSPACE}
+#           su user -c "cd ${GITHUB_WORKSPACE}/x86_64 && repo-add -R -k 128753272FB3D91D --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst"
+#           cd ${GITHUB_WORKSPACE}
+          
+#       - name: Push files
+#         uses: stefanzweifel/git-auto-commit-action@v4
+#         with:
+#           commit_message: Repo update
         
           
           
