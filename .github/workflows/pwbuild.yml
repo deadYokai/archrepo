@@ -32,19 +32,21 @@ jobs:
           chown user -R .
           chown user -R ${GITHUB_WORKSPACE}
           
-    
       - uses: actions/checkout@v2
+        
+      - name: Import GPG
+        uses: crazy-max/ghaction-import-gpg@v5
+        with:
+          gpg_private_key: ${{ secrets.PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASS }}
           
       - name: Compile
         run: |
           echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"128753272FB3D91D\"" >> /etc/makepkg.conf
           cat /etc/makepkg.conf
           su user -c "git clone https://aur.archlinux.org/pipewire-full-git.git /tmp/pw"
-          echo "${{ secrets.PRIVATE_KEY }}" | base64 --decode > /tmp/key
-          echo "${{ secrets.GPG_PASS }}" | gpg --verbose --batch --yes --passphrase-fd 0 --import /tmp/key
-          su user -c "echo \"${{ secrets.GPG_PASS }}\" | gpg --verbose --batch --yes --passphrase-fd 0 --import /tmp/key"
           su user -c "cd /tmp/pw && yes|PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign"
-          rm /tmp/key
+
 
       - name: Pack db
         run: |
