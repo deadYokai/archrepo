@@ -31,7 +31,6 @@ jobs:
           chown user -R /home/user
           chown user -R .
           chown user -R ${GITHUB_WORKSPACE}
-          pacman-key --init
           
     
       - uses: actions/checkout@v2
@@ -40,10 +39,6 @@ jobs:
         run: |
           echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"128753272FB3D91D\"" >> /etc/makepkg.conf
           su user -c "gpg --import ${GITHUB_WORKSPACE}/kitsune.gpg"
-          gpg --import ${GITHUB_WORKSPACE}/kitsune.gpg
-          pacman-key --add ${GITHUB_WORKSPACE}/kitsune.gpg
-          pacman-key --finger 128753272FB3D91D
-          pacman-key --lsign-key 128753272FB3D91D
           echo "______LIST_KEYS______"
           gpg --list-keys
           echo "______LIST_KEYS_USER______"
@@ -53,7 +48,7 @@ jobs:
           echo "${{ secrets.GPG_PASS }}" | gpg --batch --yes --passphrase-fd 0 --import /tmp/key
           su user -c "echo \"${{ secrets.GPG_PASS }}\" | gpg --batch --yes --passphrase-fd 0 --import /tmp/key"
           rm /tmp/key
-          su user -c "cd /tmp/pw && yes|PKGDEST=/tmp/x86_64 makepkg --noconfirm -s"
+          su user -c "cd /tmp/pw && yes|PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign"
           
       - name: Pack db
         run: |
@@ -61,7 +56,7 @@ jobs:
           chown user -R ${GITHUB_WORKSPACE}/x86_64
           su user -c "mv -f /tmp/x86_64/* ${GITHUB_WORKSPACE}/x86_64"
           ls -la ${GITHUB_WORKSPACE}
-          su user -c "cd ${GITHUB_WORKSPACE}/x86_64 && repo-add -k 128753272FB3D91D --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst"
+          su user -c "cd ${GITHUB_WORKSPACE}/x86_64 && repo-add --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst"
           cd ${GITHUB_WORKSPACE}
           
       - name: Push files
