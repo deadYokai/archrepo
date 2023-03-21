@@ -57,7 +57,7 @@ jobs:
           chown user -R ${GITHUB_WORKSPACE}/x86_64
           su user -c "mv -f /tmp/x86_64/* ${GITHUB_WORKSPACE}/x86_64"
           ls -la ${GITHUB_WORKSPACE}
-          su user -c "cd ${GITHUB_WORKSPACE}/x86_64 && repo-add -R -k 128753272FB3D91D --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst"
+          su user -c "cd ${GITHUB_WORKSPACE}/x86_64 && repo-add -k 128753272FB3D91D --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst"
           cd ${GITHUB_WORKSPACE}
           
       - name: Push files
