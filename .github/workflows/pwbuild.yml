@@ -43,7 +43,8 @@ jobs:
       - name: Compile
         run: |
           echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"128753272FB3D91D\"" >> /etc/makepkg.conf
-          cat /etc/makepkg.conf
+          cp /github/home/.gnupg /home/user
+          chown user /home/user/.gnupg
           su user -c "git clone https://aur.archlinux.org/pipewire-full-git.git /tmp/pw"
           su user -c "cd /tmp/pw && yes|PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign"
 
