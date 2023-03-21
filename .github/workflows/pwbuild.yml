@@ -16,15 +16,16 @@ jobs:
     container: archlinux:latest
     
     steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
-          
-      - name: Compile
+      - name: Setup container
         run: |
           echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
           pacman -Syu --noconfirm base-devel sudo git
           useradd user -G wheel && echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+              
+      - uses: actions/checkout@v2
+          
+      - name: Compile
+        run: |
           chown user -R .
           echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"128753272FB3D91D\"" >> /etc/makepkg.conf
           su user -c "git clone https://aur.archlinux.org/pipewire-full-git.git /tmp/pw"
