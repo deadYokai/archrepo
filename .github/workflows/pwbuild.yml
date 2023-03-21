@@ -38,6 +38,7 @@ jobs:
       - name: Compile
         run: |
           echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"128753272FB3D91D\"" >> /etc/makepkg.conf
+          cat /etc/makepkg.conf
           su user -c "gpg --import ${GITHUB_WORKSPACE}/kitsune.gpg"
           echo "______LIST_KEYS______"
           gpg --list-keys
