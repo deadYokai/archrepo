@@ -40,6 +40,7 @@ jobs:
         run: |
           echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"128753272FB3D91D\"" >> /etc/makepkg.conf
           su user -c "gpg --import ${GITHUB_WORKSPACE}/kitsune.gpg"
+          gpg --import ${GITHUB_WORKSPACE}/kitsune.gpg
           pacman-key --add ${GITHUB_WORKSPACE}/kitsune.gpg
           pacman-key --finger 128753272FB3D91D
           pacman-key --lsign-key 128753272FB3D91D
