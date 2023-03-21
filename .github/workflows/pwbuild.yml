@@ -22,6 +22,8 @@ jobs:
           pacman -Syu --noconfirm base-devel sudo git
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
           useradd user -G wheel && echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+          mkdir /home/user
+          chown user -R /home/user
               
       - uses: actions/checkout@v2
           
