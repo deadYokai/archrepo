@@ -48,8 +48,8 @@ jobs:
           gpg --list-keys
           echo "______LIST_KEYS_USER______"
           su user -c "gpg --list-keys"
-#           su user -c "git clone https://aur.archlinux.org/pipewire-full-git.git /tmp/pw"
-#           su user -c "cd /tmp/pw && yes|PKGDEST=/tmp/x86_64 makepkg --noconfirm -s"
+          su user -c "git clone https://aur.archlinux.org/pipewire-full-git.git /tmp/pw"
+          su user -c "cd /tmp/pw && yes|PKGDEST=/tmp/x86_64 makepkg --noconfirm -s"
           
       - name: Pack db
         run: |
@@ -58,10 +58,10 @@ jobs:
           su user -c "cd ${GITHUB_WORKSPACE}/x86_64 && repo-add -R -k 128753272FB3D91D --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst"
           cd ${GITHUB_WORKSPACE}
           
-#       - name: Push files
-#         uses: stefanzweifel/git-auto-commit-action@v4
-#         with:
-#           commit_message: Repo update
+      - name: Push files
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Repo update
         
           
           
