@@ -60,7 +60,7 @@ jobs:
                return NtGdiCreateBitmap( width, height, planes, bpp, bits ); \
            } " > adobe.patch
           wget -O childwindow.patch 'https://raw.githubusercontent.com/Frogging-Family/wine-tkg-git/master/wine-tkg-git/wine-tkg-patches/misc/childwindow/childwindow-proton.patch'
-          sed -i "s/build\(\) {/build\(\) {\n patch -d \"${srcdir}/wine\" -p0 -i \"/tmp/wine/adobe.patch\"\n patch -d \"${srcdir}/wine\" -p1 -i \"/tmp/wine/childwindow.patch\"/g" PKGBUILD
+          sed -i "s/build\(\) {/build\(\) {\n patch -d \"\${srcdir}/wine\" -p0 -i \"/tmp/wine/adobe.patch\"\n patch -d \"\${srcdir}/wine\" -p1 -i \"/tmp/wine/childwindow.patch\"/g" PKGBUILD
           yes|PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
       - name: Pack db
