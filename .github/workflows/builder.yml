@@ -27,6 +27,7 @@ jobs:
           pacman -Syu --noconfirm base-devel sudo git archlinux-keyring
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
           sed -i 's,exit $E_ROOT,echo but you know what you do,' /usr/bin/makepkg
+          echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"128753272FB3D91D\"" >> /etc/makepkg.conf
           
       - uses: actions/checkout@v2
         
@@ -36,13 +37,31 @@ jobs:
           gpg_private_key: ${{ secrets.PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASS }}
           
-      - name: Compile
+      - name: Compile PipeWire
         run: |
-          echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"128753272FB3D91D\"" >> /etc/makepkg.conf
           git clone https://aur.archlinux.org/pipewire-full-git.git /tmp/pw
           cd /tmp/pw
           yes|PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
+      - name: Compiler Wine Staging
+        run: |
+          git clone https://aur.archlinux.org/wine-staging-git.git /tmp/wine
+          cd /tmp/wine
+          sed -i "s/wine-staging-git/wine-staging-patched-git/g" PKGBUILD
+          echo "--- dlls/gdi32/objects.c \
+          +++ dlls/gdi32/objects.c \
+          @@ -610,6 +610,9 @@ HBITMAP WINAPI CreateBitmap( INT width, INT height, UINT planes, \
+               if (!width || !height) \
+                   return GetStockObject( STOCK_LAST + 1 ); /* default 1x1 bitmap */ \
+          \
+          +    if (width % 4 > 0) \
+          +        width += 4 - (width % 4); \
+          + \
+               return NtGdiCreateBitmap( width, height, planes, bpp, bits ); \
+           } \" > adobe.patch
+          wget -O childwindow.patch 'https://raw.githubusercontent.com/Frogging-Family/wine-tkg-git/master/wine-tkg-git/wine-tkg-patches/misc/childwindow/childwindow-proton.patch'
+          sed -i "s/build\(\) {/build\(\) {\n patch -d \"${srcdir}/wine\" -p0 -i \"/tmp/wine/adobe.patch\"\n patch -d \"${srcdir}/wine\" -p1 -i \"/tmp/wine/childwindow.patch\"/g" PKGBUILD
+          yes|PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
       - name: Pack db
         run: |
