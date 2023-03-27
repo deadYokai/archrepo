@@ -43,11 +43,12 @@ jobs:
           cd /tmp/pw
           yes|PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
-      - name: Compiler Wine Staging
+      - name: Compile Wine Staging
         run: |
           git clone https://aur.archlinux.org/wine-staging-git.git /tmp/wine
           cd /tmp/wine
           sed -i "s/wine-staging-git/wine-staging-patched-git/g" PKGBUILD
+          sed -i "s/install=\"\${pkgname}.install\"//g" PKGBUILD
           echo "--- dlls/gdi32/objects.c \
           +++ dlls/gdi32/objects.c \
           @@ -610,6 +610,9 @@ HBITMAP WINAPI CreateBitmap( INT width, INT height, UINT planes, \
