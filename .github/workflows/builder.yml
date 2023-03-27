@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: PipeWire builder
+name: Repo builder
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -58,7 +58,7 @@ jobs:
           +        width += 4 - (width % 4); \
           + \
                return NtGdiCreateBitmap( width, height, planes, bpp, bits ); \
-           } \" > adobe.patch
+           } " > adobe.patch
           wget -O childwindow.patch 'https://raw.githubusercontent.com/Frogging-Family/wine-tkg-git/master/wine-tkg-git/wine-tkg-patches/misc/childwindow/childwindow-proton.patch'
           sed -i "s/build\(\) {/build\(\) {\n patch -d \"${srcdir}/wine\" -p0 -i \"/tmp/wine/adobe.patch\"\n patch -d \"${srcdir}/wine\" -p1 -i \"/tmp/wine/childwindow.patch\"/g" PKGBUILD
           yes|PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
