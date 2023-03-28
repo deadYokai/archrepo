@@ -24,7 +24,7 @@ jobs:
       - name: Setup container
         run: |
           echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
-          pacman -Syu --noconfirm base-devel sudo git archlinux-keyring wget
+          pacman -Syu --noconfirm base-devel sudo git archlinux-keyring wget git-lfs
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
           sed -i 's,exit $E_ROOT,echo but you know what you do,' /usr/bin/makepkg
           echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"128753272FB3D91D\"" >> /etc/makepkg.conf
@@ -68,6 +68,8 @@ jobs:
         run: |
           mv -f /tmp/x86_64/* ${GITHUB_WORKSPACE}/x86_64
           ls -la ${GITHUB_WORKSPACE}
+          cd ${GITHUB_WORKSPACE}
+          git lfs install
           cd ${GITHUB_WORKSPACE}/x86_64 
           git lfs track "*.pkg.tar.zst"
           repo-add --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst
