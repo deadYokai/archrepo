@@ -1,0 +1,72 @@
+# This is a basic workflow that is manually triggered
+
+name: Repo builder
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "greet"
+  repo:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    container: archlinux:latest
+    
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the
+      # added or changed files to the repository.
+      contents: write
+    
+    steps:
+      - name: Setup container
+        run: |
+          echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
+          pacman -Syu --noconfirm base-devel sudo git archlinux-keyring wget git-lfs
+          git config --global --add safe.directory ${GITHUB_WORKSPACE}
+          sed -i 's,exit $E_ROOT,echo but you know what you do,' /usr/bin/makepkg
+          echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"128753272FB3D91D\"" >> /etc/makepkg.conf
+          
+      - uses: actions/checkout@v2
+        
+      - name: Import GPG
+        uses: crazy-max/ghaction-import-gpg@v5
+        with:
+          gpg_private_key: ${{ secrets.PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASS }}
+          
+      - name: Build kernel TKG
+        run: |
+          git clone https://github.com/Frogging-Family/linux-tkg.git /tmp/linux
+          cd /tmp/linux
+          sed -i 's/_compiler=\"\"/_compiler=\"llvm\"/g' customization.cfg
+          
+          yes|PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
+
+      - name: Compile Nvidia TKG
+        run: |
+          git clone https://github.com/Frogging-Family/nvidia-all.git /tmp/nvidia
+          cd /tmp/nvidia
+          yes|PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
+
+      - name: Pack db
+        run: |
+          mv -f /tmp/x86_64/* ${GITHUB_WORKSPACE}/x86_64
+          ls -la ${GITHUB_WORKSPACE}
+          cd ${GITHUB_WORKSPACE}
+          git lfs install
+          cd ${GITHUB_WORKSPACE}/x86_64 
+          git lfs track "*.pkg.tar.zst"
+          repo-add --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst
+          cd ${GITHUB_WORKSPACE}
+          
+      - name: Push files
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Repo update
+        
+          
+          
+
