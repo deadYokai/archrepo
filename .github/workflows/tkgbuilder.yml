@@ -24,7 +24,7 @@ jobs:
       - name: Setup container
         run: |
           echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
-          pacman -Syu --noconfirm base-devel sudo git archlinux-keyring wget git-lfs
+          pacman -Syu --noconfirm base-devel sudo git archlinux-keyring wget git-lfs linux-headers
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
           sed -i 's,exit $E_ROOT,echo but you know what you do,' /usr/bin/makepkg
           echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"128753272FB3D91D\"" >> /etc/makepkg.conf
@@ -51,7 +51,11 @@ jobs:
       - name: Compile Nvidia TKG
         run: |
           git clone https://github.com/Frogging-Family/nvidia-all.git /tmp/nvidia
-          cd /tmp/nvidia
+          cd /tmp/nvidia          
+          sed -i 's/_open_source_modules=\"\"/_open_source_modules=\"false\"/g' customization.cfg
+          sed -i 's/_dkms=\"\"/_dkms=\"true\"/g' customization.cfg
+          sed -i 's/_driver_version=\"\"/_driver_version=\"latest\"/g' customization.cfg
+          sed -i 's/_driver_branch=\"\"/_driver_branch=\"regular\"/g' customization.cfg
           yes|PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
       - name: Pack db
