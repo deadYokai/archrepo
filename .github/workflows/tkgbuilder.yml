@@ -54,8 +54,13 @@ jobs:
           sed -i 's/_rr_interval=\"\"/_rr_interval=\"default\"/g' customization.cfg
           sed -i 's/_processor_opt=\"\"/_processor_opt=\"generic_v3\"/g' customization.cfg
           sed -i 's/_timer_freq=\"\"/_timer_freq=\"1000\"/g' customization.cfg
-          
           sed -i 's/_default_cpu_gov=\"\"/_default_cpu_gov=\"performance\"/g' customization.cfg
+          sed -i 's/_tickless=\"\"/_tickless=\"1\"/g' customization.cfg
+          sed -i 's/_acs_override=\"\"/_acs_override=\"false\"/g' customization.cfg
+          sed -i 's/_anbox=\"\"/_anbox=\"false\"/g' customization.cfg
+          sed -i 's/_config_fragments_no_confirm=\"\"/_config_fragments_no_confirm=\"true\"/g' customization.cfg
+          sed -i 's/_menunconfig=\"\"/_menunconfig=\"false\"/g' customization.cfg
+          sed -i 's/_diffconfig=\"\"/_diffconfig=\"false\"/g' customization.cfg
           echo | PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
       - name: Compile Nvidia TKG
