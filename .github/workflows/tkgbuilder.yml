@@ -30,6 +30,7 @@ jobs:
           echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"128753272FB3D91D\"" >> /etc/makepkg.conf
           mkdir -p /root/.ssh/
           echo "${{ secrets.SSH_PRIVATE }}" > /root/.ssh/id_rsa
+          chmod 600 /root/.ssh/id_rsa
           echo "${{ secrets.SSH_PUB }}" > /root/.ssh/known_hosts
           eval "${{ secrets.RSYNC_GET }}"
           
