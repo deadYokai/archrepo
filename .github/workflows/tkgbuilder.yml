@@ -46,7 +46,7 @@ jobs:
           sed -i 's/_compiler=\"\"/_compiler=\"llvm\"/g' customization.cfg
           sed -i 's/_lto_mode=\"\"/_lto_mode=\"thin\"/g' customization.cfg
           sed -i 's/_sched_yield_type=\"\"/_sched_yield_type=\"0\"/g' customization.cfg
-          yes|PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
+          echo | PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
       - name: Compile Nvidia TKG
         run: |
@@ -56,7 +56,7 @@ jobs:
           sed -i 's/_dkms=\"\"/_dkms=\"true\"/g' customization.cfg
           sed -i 's/_driver_version=\"\"/_driver_version=\"latest\"/g' customization.cfg
           sed -i 's/_driver_branch=\"\"/_driver_branch=\"regular\"/g' customization.cfg
-          yes|PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
+          PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
       - name: Pack db
         run: |
