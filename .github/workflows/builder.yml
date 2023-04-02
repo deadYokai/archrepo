@@ -41,7 +41,7 @@ jobs:
         run: |
           git clone https://aur.archlinux.org/pipewire-full-git.git /tmp/pw
           cd /tmp/pw
-          yes|PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
+          PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
       - name: Compile Wine Staging
         run: |
@@ -73,12 +73,6 @@ jobs:
           cd ${GITHUB_WORKSPACE}/x86_64 
           git lfs track "*.pkg.tar.zst"
           repo-add --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst
-          cd ${GITHUB_WORKSPACE}
-          
-      - name: Push files
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Repo update
-        
+          yes|eval $RSYNC_COMMAND
           
           
