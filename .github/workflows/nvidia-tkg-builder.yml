@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: TKG builder
+name: TKG-nvidia builder
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -42,31 +42,10 @@ jobs:
           gpg_private_key: ${{ secrets.PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASS }}
           
-      - name: Build kernel TKG
-        run: |
-          git clone https://github.com/Frogging-Family/linux-tkg.git /tmp/linux
-          cd /tmp/linux
-          echo "Write config"
-          sed -i 's/_cpusched=\"\"/_cpusched=\"pds\"/g' customization.cfg
-          sed -i 's/_compiler=\"\"/_compiler=\"llvm\"/g' customization.cfg
-          sed -i 's/_lto_mode=\"\"/_lto_mode=\"thin\"/g' customization.cfg
-          sed -i 's/_sched_yield_type=\"\"/_sched_yield_type=\"0\"/g' customization.cfg
-          sed -i 's/_rr_interval=\"\"/_rr_interval=\"default\"/g' customization.cfg
-          sed -i 's/_processor_opt=\"\"/_processor_opt=\"generic_v3\"/g' customization.cfg
-          sed -i 's/_timer_freq=\"\"/_timer_freq=\"1000\"/g' customization.cfg
-          sed -i 's/_default_cpu_gov=\"\"/_default_cpu_gov=\"performance\"/g' customization.cfg
-          sed -i 's/_tickless=\"\"/_tickless=\"1\"/g' customization.cfg
-          sed -i 's/_acs_override=\"\"/_acs_override=\"false\"/g' customization.cfg
-          sed -i 's/_anbox=\"\"/_anbox=\"false\"/g' customization.cfg
-          sed -i 's/_config_fragments_no_confirm=\"\"/_config_fragments_no_confirm=\"true\"/g' customization.cfg
-          sed -i 's/_menunconfig=\"\"/_menunconfig=\"false\"/g' customization.cfg
-          sed -i 's/_diffconfig=\"\"/_diffconfig=\"false\"/g' customization.cfg
-          echo | PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
-
-      - name: Compile Nvidia TKG
+      - name: Build Nvidia TKG
         run: |
           git clone https://github.com/Frogging-Family/nvidia-all.git /tmp/nvidia
-          cd /tmp/nvidia          
+          cd /tmp/nvidia
           sed -i 's/_open_source_modules=\"\"/_open_source_modules=\"false\"/g' customization.cfg
           sed -i 's/_dkms=\"\"/_dkms=\"true\"/g' customization.cfg
           sed -i 's/_driver_version=\"\"/_driver_version=\"latest\"/g' customization.cfg

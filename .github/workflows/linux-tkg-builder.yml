@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: Repo builder
+name: TKG-kernel builder
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -33,7 +33,7 @@ jobs:
           chmod 600 /root/.ssh/id_rsa
           echo "${{ secrets.SSH_PUB }}" > /root/.ssh/known_hosts
           eval "${{ secrets.RSYNC_GET }}"
-
+          
       - uses: actions/checkout@v2
         
       - name: Import GPG
@@ -42,32 +42,26 @@ jobs:
           gpg_private_key: ${{ secrets.PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASS }}
           
-      - name: Compile PipeWire
+      - name: Build kernel TKG
         run: |
-          git clone https://aur.archlinux.org/pipewire-full-git.git /tmp/pw
-          cd /tmp/pw
-          PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
-
-      - name: Compile Wine Staging
-        run: |
-          git clone https://aur.archlinux.org/wine-staging-git.git /tmp/wine
-          cd /tmp/wine
-          sed -i "s/wine-staging-git/wine-staging-patched-git/g" PKGBUILD
-          sed -i "s/install=\"\${pkgname}.install\"//g" PKGBUILD
-          echo "--- dlls/gdi32/objects.c \
-          +++ dlls/gdi32/objects.c \
-          @@ -610,6 +610,9 @@ HBITMAP WINAPI CreateBitmap( INT width, INT height, UINT planes, \
-               if (!width || !height) \
-                   return GetStockObject( STOCK_LAST + 1 ); /* default 1x1 bitmap */ \
-          \
-          +    if (width % 4 > 0) \
-          +        width += 4 - (width % 4); \
-          + \
-               return NtGdiCreateBitmap( width, height, planes, bpp, bits ); \
-           } " > adobe.patch
-          wget -O childwindow.patch 'https://raw.githubusercontent.com/Frogging-Family/wine-tkg-git/master/wine-tkg-git/wine-tkg-patches/misc/childwindow/childwindow-proton.patch'
-          sed -i "s/build\(\) {/build\(\) {\n patch -d \"\${srcdir}\/wine\" -p0 -i \"\/tmp\/wine\/adobe.patch\"\n patch -d \"\${srcdir}\/wine\" -p1 -i \"\/tmp\/wine\/childwindow.patch\"/g" PKGBUILD
-          yes|PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
+          git clone https://github.com/Frogging-Family/linux-tkg.git /tmp/linux
+          cd /tmp/linux
+          echo "Write config"
+          sed -i 's/_cpusched=\"\"/_cpusched=\"pds\"/g' customization.cfg
+          sed -i 's/_compiler=\"\"/_compiler=\"llvm\"/g' customization.cfg
+          sed -i 's/_lto_mode=\"\"/_lto_mode=\"thin\"/g' customization.cfg
+          sed -i 's/_sched_yield_type=\"\"/_sched_yield_type=\"0\"/g' customization.cfg
+          sed -i 's/_rr_interval=\"\"/_rr_interval=\"default\"/g' customization.cfg
+          sed -i 's/_processor_opt=\"\"/_processor_opt=\"generic_v3\"/g' customization.cfg
+          sed -i 's/_timer_freq=\"\"/_timer_freq=\"1000\"/g' customization.cfg
+          sed -i 's/_default_cpu_gov=\"\"/_default_cpu_gov=\"performance\"/g' customization.cfg
+          sed -i 's/_tickless=\"\"/_tickless=\"1\"/g' customization.cfg
+          sed -i 's/_acs_override=\"\"/_acs_override=\"false\"/g' customization.cfg
+          sed -i 's/_anbox=\"\"/_anbox=\"false\"/g' customization.cfg
+          sed -i 's/_config_fragments_no_confirm=\"\"/_config_fragments_no_confirm=\"true\"/g' customization.cfg
+          sed -i 's/_menunconfig=\"\"/_menunconfig=\"false\"/g' customization.cfg
+          sed -i 's/_diffconfig=\"\"/_diffconfig=\"false\"/g' customization.cfg
+          echo | PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
       - name: Pack db
         run: |
@@ -75,5 +69,7 @@ jobs:
           cd /tmp/x86_64/
           repo-add --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst
           eval ${{ secrets.RSYNC_COMMAND }}
+        
           
           
+
