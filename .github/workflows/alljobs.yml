@@ -5,18 +5,22 @@ on:
 jobs:
   pipewire:
     uses: ./.github/workflows/pipewire-builder.yml
+    secrets: inherit
 
   nvidia-tkg:
     if: ${{ always() }}
     needs: pipewire
     uses: ./.github/workflows/nvidia-tkg-builder.yml
+    secrets: inherit
 
   wine-staging:
     if: ${{ always() }}
     needs: nvidia-tkg
     uses: ./.github/workflows/wine-builder.yml
+    secrets: inherit
 
   linux-tkg:
     if: ${{ always() }}
     needs: wine-staging
     uses: ./.github/workflows/linux-tkg-builder.yml
+    secrets: inherit
