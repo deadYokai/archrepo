@@ -28,6 +28,10 @@ jobs:
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
           sed -i 's,exit $E_ROOT,echo but you know what you do,' /usr/bin/makepkg
           echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"128753272FB3D91D\"" >> /etc/makepkg.conf
+          mkdir ~/.ssh/
+          echo ${{ secrets.SSH_PRIVATE }} > ~/.ssh/id_rsa
+          sudo chmod 600 ~/.ssh/id_rsa
+          echo ${{ secrets.SSH_PUB }} > ~/.ssh/known_hosts
           eval ${{ secrets.RSYNC_GET }}
           
       - uses: actions/checkout@v2
@@ -66,7 +70,7 @@ jobs:
           ls -la /tmp/x86_64/
           cd /tmp/x86_64/
           repo-add --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst
-          yes|eval ${{ secrets.RSYNC_COMMAND }}
+          eval ${{ secrets.RSYNC_COMMAND }}
         
           
           
