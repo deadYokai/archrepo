@@ -8,19 +8,19 @@ jobs:
     secrets: inherit
 
   nvidia-tkg:
-    if: ${{ always() }}
-    needs: pipewire
     uses: ./.github/workflows/nvidia-tkg-builder.yml
     secrets: inherit
 
   wine-staging:
-    if: ${{ always() }}
-    needs: nvidia-tkg
     uses: ./.github/workflows/wine-builder.yml
     secrets: inherit
 
   linux-tkg:
-    if: ${{ always() }}
-    needs: wine-staging
     uses: ./.github/workflows/linux-tkg-builder.yml
+    secrets: inherit
+
+  packdb:
+    if: ${{ always() }}
+    needs: [pipewire, nvidia-tkg, wine-staging, linux-tkg]
+    uses: ./.github/workflows/packdb.yml
     secrets: inherit

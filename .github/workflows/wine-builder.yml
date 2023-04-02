@@ -11,7 +11,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "greet"
-  repo:
+  build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     container: archlinux:latest
@@ -33,10 +33,9 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE }}" > /root/.ssh/id_rsa
           chmod 600 /root/.ssh/id_rsa
           echo "${{ secrets.SSH_PUB }}" > /root/.ssh/known_hosts
-          eval "${{ secrets.RSYNC_GET }}"
+          mkdir /tmp/x86_64
+          # eval "${{ secrets.RSYNC_GET }}"
 
-      - uses: actions/checkout@v2
-        
       - name: Import GPG
         uses: crazy-max/ghaction-import-gpg@v5
         with:
@@ -64,11 +63,11 @@ jobs:
           sed -i "s/build\(\) {/build\(\) {\n patch -d \"\${srcdir}\/wine\" -p0 -i \"\/tmp\/wine\/adobe.patch\"\n patch -d \"\${srcdir}\/wine\" -p1 -i \"\/tmp\/wine\/childwindow.patch\"/g" PKGBUILD
           yes|PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
-      - name: Pack and upload repo
+      - name: Upload files
         run: |
           ls -la /tmp/x86_64/
           cd /tmp/x86_64/
-          repo-add --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst
+          #repo-add --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst
           eval "${{ secrets.RSYNC_COMMAND }}"
           
           
