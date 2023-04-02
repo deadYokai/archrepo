@@ -7,10 +7,16 @@ jobs:
     uses: ./.github/workflows/pipewire-builder.yml
 
   nvidia-tkg:
+    if: ${{ always() }}
+    needs: pipewire
     uses: ./.github/workflows/nvidia-tkg-builder.yml
 
   wine-staging:
+    if: ${{ always() }}
+    needs: nvidia-tkg
     uses: ./.github/workflows/wine-builder.yml
 
   linux-tkg:
+    if: ${{ always() }}
+    needs: wine-staging
     uses: ./.github/workflows/linux-tkg-builder.yml
