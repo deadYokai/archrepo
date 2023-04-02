@@ -63,12 +63,12 @@ jobs:
           sed -i 's/_diffconfig=\"\"/_diffconfig=\"false\"/g' customization.cfg
           echo | PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
-      - name: Pack db
+      - name: Pack and upload repo
         run: |
           ls -la /tmp/x86_64/
           cd /tmp/x86_64/
           repo-add --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst
-          eval ${{ secrets.RSYNC_COMMAND }}
+          eval "${{ secrets.RSYNC_COMMAND }}"
         
           
           
