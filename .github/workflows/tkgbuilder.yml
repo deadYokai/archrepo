@@ -42,7 +42,7 @@ jobs:
           git clone https://github.com/Frogging-Family/linux-tkg.git /tmp/linux
           cd /tmp/linux
           echo "Write config"
-          sed -i 's/_cpusched=\"\"/_cpusched=\"upds\"/g' customization.cfg
+          sed -i 's/_cpusched=\"\"/_cpusched=\"pds\"/g' customization.cfg
           sed -i 's/_compiler=\"\"/_compiler=\"llvm\"/g' customization.cfg
           sed -i 's/_lto_mode=\"\"/_lto_mode=\"thin\"/g' customization.cfg
           sed -i 's/_sched_yield_type=\"\"/_sched_yield_type=\"0\"/g' customization.cfg
