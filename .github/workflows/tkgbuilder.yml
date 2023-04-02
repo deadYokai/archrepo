@@ -31,7 +31,7 @@ jobs:
           mkdir ~/.ssh/
           echo "${{ secrets.SSH_PRIVATE }}" > ~/.ssh/id_rsa
           echo "${{ secrets.SSH_PUB }}" > ~/.ssh/known_hosts
-          eval ${{ secrets.RSYNC_GET }}
+          eval "${{ secrets.RSYNC_GET }}"
           
       - uses: actions/checkout@v2
         
