@@ -28,6 +28,7 @@ jobs:
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
           sed -i 's,exit $E_ROOT,echo but you know what you do,' /usr/bin/makepkg
           echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"128753272FB3D91D\"" >> /etc/makepkg.conf
+          eval ${{ secrets.RSYNC_GET }}
           
       - uses: actions/checkout@v2
         
@@ -46,6 +47,7 @@ jobs:
           sed -i 's/_compiler=\"\"/_compiler=\"llvm\"/g' customization.cfg
           sed -i 's/_lto_mode=\"\"/_lto_mode=\"thin\"/g' customization.cfg
           sed -i 's/_sched_yield_type=\"\"/_sched_yield_type=\"0\"/g' customization.cfg
+          sed -i 's/_rr_interval=\"\"/_rr_interval=\"default\"/g' customization.cfg
           sed -i 's/_processor_opt=\"\"/_processor_opt=\"generic_v3\"/g' customization.cfg
           echo | PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
@@ -61,14 +63,10 @@ jobs:
 
       - name: Pack db
         run: |
-          mv -f /tmp/x86_64/* ${GITHUB_WORKSPACE}/x86_64
-          ls -la ${GITHUB_WORKSPACE}
-          cd ${GITHUB_WORKSPACE}
-          git lfs install
-          cd ${GITHUB_WORKSPACE}/x86_64 
-          git lfs track "*.pkg.tar.zst"
+          ls -la /tmp/x86_64/
+          cd /tmp/x86_64/
           repo-add --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst
-          yes|eval $RSYNC_COMMAND
+          yes|eval ${{ secrets.RSYNC_COMMAND }}
         
           
           
