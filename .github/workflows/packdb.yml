@@ -48,7 +48,8 @@ jobs:
           ls -la /tmp/x86_64/
           cd /tmp/x86_64/
           repo-add --verify --sign deadyokai.db.tar.gz /tmp/repotemp/*.pkg.tar.zst
-          for file in $(tar tzf deadyokai.files.tar.gz | awk -F/ '{ print $1 }' | uniq); do mv "/tmp/repotemp/$file.pkg.tar.zst" .; done
+          for file in $(tar tzf deadyokai.files.tar.gz | awk -F/ '{ print $1 }' | uniq); do mv "/tmp/repotemp/$file-*.pkg.tar.zst" .; done
+          for file in $(tar tzf deadyokai.files.tar.gz | awk -F/ '{ print $1 }' | uniq); do mv "/tmp/repotemp/$file-*.pkg.tar.zst.sig" .; done
           ls -la /tmp/x86_64
           eval "${{ secrets.SSH_CLEAR }}"
           eval "${{ secrets.RSYNC_COMMAND }}"
