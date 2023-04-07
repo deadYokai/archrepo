@@ -6,6 +6,9 @@ name: Pipewire builder
 # or API.
 on:
   workflow_dispatch:
+    packdb:
+        type: boolean
+        description: Pack repo database
   workflow_call:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -56,3 +59,9 @@ jobs:
           eval "${{ secrets.RSYNC_COMMAND }}"
           
           
+
+  packdb:
+    if: ${{ github.event.inputs.pack == 'true' }}
+    needs: [build]
+    uses: ./.github/workflows/packdb.yml
+    secrets: inherit
