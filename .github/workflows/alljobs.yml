@@ -19,8 +19,12 @@ jobs:
     uses: ./.github/workflows/linux-tkg-builder.yml
     secrets: inherit
 
+  dds-thumb:
+    uses: ./.github/workflows/kde-dds-builder.yml
+    secrets: inherit
+
   packdb:
     if: ${{ always() }}
-    needs: [pipewire, nvidia-tkg, wine-staging, linux-tkg]
+    needs: [pipewire, nvidia-tkg, wine-staging, linux-tkg, dds-thumb]
     uses: ./.github/workflows/packdb.yml
     secrets: inherit
