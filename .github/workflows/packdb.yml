@@ -43,9 +43,12 @@ jobs:
 
       - name: Packing database
         run: |
+          mv /tmp/x86_64 /tmp/repotemp
+          mkdir /tmp/x86_64
           ls -la /tmp/x86_64/
           cd /tmp/x86_64/
-          repo-add -R --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst
+          repo-add --verify --sign deadyokai.db.tar.gz /tmp/repotemp/*.pkg.tar.zst
+          ls -la /tmp/x86_64
           eval "${{ secrets.SSH_CLEAR }}"
           eval "${{ secrets.RSYNC_COMMAND }}"
           
