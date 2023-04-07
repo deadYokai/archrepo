@@ -45,7 +45,8 @@ jobs:
         run: |
           ls -la /tmp/x86_64/
           cd /tmp/x86_64/
-          repo-add --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst
+          repo-add -R --verify --sign deadyokai.db.tar.gz *.pkg.tar.zst
+          eval "${{ secrets.SSH_CLEAR }}"
           eval "${{ secrets.RSYNC_COMMAND }}"
           
           
