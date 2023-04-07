@@ -62,7 +62,7 @@ jobs:
           
 
   packdb:
-    if: ${{ github.event.inputs.pack == 'true' }}
+    if: ${{ github.event.inputs.packdb == 'true' }}
     needs: [build]
     uses: ./.github/workflows/packdb.yml
     secrets: inherit
