@@ -23,8 +23,12 @@ jobs:
     uses: ./.github/workflows/kde-dds-builder.yml
     secrets: inherit
 
+  64gram:
+    uses: ./.github/workflows/64gram-builder.yml
+    secrets: inherit
+
   packdb:
     if: ${{ always() }}
-    needs: [pipewire, nvidia-tkg, wine-staging, linux-tkg, dds-thumb]
+    needs: [pipewire, nvidia-tkg, wine-staging, linux-tkg, dds-thumb, 64gram]
     uses: ./.github/workflows/packdb.yml
     secrets: inherit
