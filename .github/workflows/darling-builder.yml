@@ -46,10 +46,10 @@ jobs:
           gpg_private_key: ${{ secrets.PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASS }}
           
-      - name: Build 64Gram
+      - name: Build Darling
         run: |
-          git clone https://aur.archlinux.org/64gram-desktop.git /tmp/64gram
-          cd /tmp/64gram
+          git clone https://aur.archlinux.org/darling-git.git /tmp/dar
+          cd /tmp/dar
           PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
       - name: Upload files
