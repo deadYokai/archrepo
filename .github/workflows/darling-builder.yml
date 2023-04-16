@@ -30,7 +30,7 @@ jobs:
         run: |
           echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
           pacman -Syu --noconfirm base-devel sudo git archlinux-keyring wget linux-headers rsync openssh
-          pacmn -U --noconfirm 'https://archive.archlinux.org/packages/p/python2/python2-2.7.18-5-x86_64.pkg.tar.zst'
+          pacman -U --noconfirm 'https://archive.archlinux.org/packages/p/python2/python2-2.7.18-5-x86_64.pkg.tar.zst'
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
           sed -i 's,exit $E_ROOT,echo but you know what you do,' /usr/bin/makepkg
           echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"128753272FB3D91D\"" >> /etc/makepkg.conf
