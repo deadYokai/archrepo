@@ -49,7 +49,7 @@ jobs:
           
       - name: Build Darling
         run: |
-	  mkdir /tmp/dar
+          mkdir /tmp/dar
           wget -O /tmp/dar/PKGBUILD https://raw.githubusercontent.com/deadYokai/archrepo/main/other-pkgs/darling-alpha-11.5/PKGBUILD
           cd /tmp/dar
           PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
