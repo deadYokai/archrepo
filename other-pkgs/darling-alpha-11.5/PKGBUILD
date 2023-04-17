@@ -40,10 +40,13 @@ prepare() {
 
     echo "Initialize git submodules."
     git submodule update --init --recursive
-#
-#     echo "Updating LFS files"
-#     cd "$srcdir/$_gitname/src/external/swift"
-#     git lfs pull
+
+    sed 's/url = ..\//url = https://github.com/darlinghq\//g' .gitmodules
+
+    echo "Updating LFS files"
+    cd "$srcdir/$_gitname/src/external/swift"
+    # Replacement LFS
+    sh build.sh
 
     echo "Creating build directory."
     cd "$srcdir/$_gitname"
