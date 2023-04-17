@@ -38,8 +38,9 @@ pkgver() {
 prepare() {
     cd "$srcdir/$_gitname"
 
-    echo "Fix .gitmodules"
-    sed 's/url = ..\//url = https:\/\/github.com\/darlinghq\//g' .gitmodules
+    git checkout update_sources_11.5_alpharelease2
+#     echo "Fix .gitmodules"
+#     sed 's/url = ..\//url = https:\/\/github.com\/darlinghq\//g' .gitmodules
 
     echo "Initialize git submodules."
     git submodule update --init --recursive
