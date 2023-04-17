@@ -38,7 +38,9 @@ prepare() {
     cd "$srcdir/$_gitname"
 
     echo "Fix .gitmodules"
-    sed 's/url = ..\//url = https:\/\/github.com\/darlinghq\//g' .gitmodules
+    sed 's/url = ..\//url = https:\/\/github.com\/darlinghq\//g' .gitmodules > .tmp.gitmodules
+    rm -f .gitmodules
+    mv .tmp.gitmodules .gitmodules
     git submodule sync
 
     echo "Initialize git submodules."
