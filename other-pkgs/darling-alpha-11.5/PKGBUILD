@@ -38,10 +38,11 @@ pkgver() {
 prepare() {
     cd "$srcdir/$_gitname"
 
+    echo "Fix .gitmodules"
+    sed 's/url = ..\//url = https://github.com/darlinghq\//g' .gitmodules
+
     echo "Initialize git submodules."
     git submodule update --init --recursive
-
-    sed 's/url = ..\//url = https://github.com/darlinghq\//g' .gitmodules
 
     echo "Updating LFS files"
     cd "$srcdir/$_gitname/src/external/swift"
