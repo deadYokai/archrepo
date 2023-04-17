@@ -27,7 +27,6 @@ source=('git+https://github.com/darlinghq/darling.git#branch=update_sources_11.5
 
 # We skip md5 on all git repos
 md5sums=( 'SKIP' )
-options=('!buildflags')
 
 pkgver() {
     cd "$srcdir/$_gitname"
@@ -38,9 +37,9 @@ pkgver() {
 prepare() {
     cd "$srcdir/$_gitname"
 
-    git checkout update_sources_11.5_alpharelease2
-#     echo "Fix .gitmodules"
-#     sed 's/url = ..\//url = https:\/\/github.com\/darlinghq\//g' .gitmodules
+    echo "Fix .gitmodules"
+    sed 's/url = ..\//url = https:\/\/github.com\/darlinghq\//g' .gitmodules
+    git submodule sync
 
     echo "Initialize git submodules."
     git submodule update --init --recursive
