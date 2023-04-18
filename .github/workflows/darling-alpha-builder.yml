@@ -49,6 +49,8 @@ jobs:
 
       - name: Build openssl-1.0
         run: |
+          gpg --receive-keys 7953AC1FBC3DC8B3B292393ED5E9E43F7DF9EE8C
+          gpg --receive-keys 8657ABB260F056B1E5190839D9C4D26D0E604491
           git clone https://aur.archlinux.org/openssl-1.0.git /tmp/openssl
           cd /tmp/openssl
           PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
