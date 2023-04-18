@@ -46,7 +46,13 @@ jobs:
         with:
           gpg_private_key: ${{ secrets.PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASS }}
-          
+
+      - name: Build openssl-1.0
+        run: |
+          git clone https://aur.archlinux.org/openssl-1.0.git /tmp/openssl
+          cd /tmp/openssl
+          PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
+
       - name: Build xar
         run: |
           git clone https://aur.archlinux.org/xar.git /tmp/xar
