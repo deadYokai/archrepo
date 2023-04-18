@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: Darling Alpha 11.5 builder
+name: Darling 11.5 Update builder & xar
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -47,6 +47,12 @@ jobs:
           gpg_private_key: ${{ secrets.PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASS }}
           
+      - name: Build xar
+        run: |
+          git clone https://aur.archlinux.org/xar.git /tmp/xar
+          cd /tmp/xar
+          PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
+
       - name: Build Darling
         run: |
           mkdir /tmp/dar
