@@ -44,10 +44,15 @@ prepare() {
     echo "Initialize git submodules."
     git submodule update --init --recursive
 
-    echo "Updating LFS files"
+    echo "Swift download"
     cd "$srcdir/$_gitname/src/external/swift"
     # Replacement LFS
-    sh build.sh
+    ls libswift*dylib > 2dw
+    rm ./libswift*dylib
+    # download
+    while read line; do
+        wget "https://repo.vilafox.xyz/darling-swift/${line}"
+    done < 2dw
 
     echo "Creating build directory."
     cd "$srcdir/$_gitname"

@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: Darling 11.5 Update builder & xar
+name: Darling 11.5 Update builder
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -46,20 +46,6 @@ jobs:
         with:
           gpg_private_key: ${{ secrets.PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASS }}
-
-      - name: Build openssl-1.0
-        run: |
-          gpg --receive-keys 7953AC1FBC3DC8B3B292393ED5E9E43F7DF9EE8C
-          gpg --receive-keys 8657ABB260F056B1E5190839D9C4D26D0E604491
-          git clone https://aur.archlinux.org/openssl-1.0.git /tmp/openssl
-          cd /tmp/openssl
-          PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
-
-      - name: Build xar
-        run: |
-          git clone https://aur.archlinux.org/xar.git /tmp/xar
-          cd /tmp/xar
-          PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
 
       - name: Build Darling
         run: |
