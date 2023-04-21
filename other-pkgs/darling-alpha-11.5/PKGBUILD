@@ -39,10 +39,15 @@ prepare() {
 
     echo "Set submodules url in .gitmodules"
     sed -i 's/url = ..\//url = https:\/\/github.com\/darlinghq\//g' .gitmodules
+
+    #set metal submodule branch
+    sed -i 's/metal.git/metal.git\n        branch = main/g' .gitmodules
     git submodule sync --recursive
 
     echo "Initialize git submodules."
-    git  submodule update --force --init --recursive
+    git  submodule update --force --init --recursive --remote
+
+
 
     echo "Updating git submodules"
     git -c protocol.file.allow=always submodule update
