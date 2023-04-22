@@ -51,22 +51,22 @@ jobs:
           echo "::group::ffmpeg"
           git clone https://aur.archlinux.org/ffmpeg-obs.git /tmp/ff
           cd /tmp/ff
-          PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
+          PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
           echo "::endgroup"
           echo "::group::ftl-sdk"
           git clone https://aur.archlinux.org/ftl-sdk.git /tmp/ftl
           cd /tmp/ftl
-          PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
+          PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
           echo "::endgroup"
           echo "::group::vlc-luajit"
           git clone https://aur.archlinux.org/vlc-luajit.git /tmp/vlc-luajit
           cd /tmp/vlc-luajit
-          PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
+          PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
           echo "::endgroup"
           echo "::group::cef-minimal-obs-bin"
           git clone https://aur.archlinux.org/cef-minimal-obs-bin.git /tmp/cef-minimal-obs-bin
           cd /tmp/cef-minimal-obs-bin
-          PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
+          PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
           echo "::endgroup"
 
       - name: Build OBS
