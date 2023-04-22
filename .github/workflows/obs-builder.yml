@@ -38,6 +38,8 @@ jobs:
           chmod 600 /root/.ssh/id_rsa
           echo "${{ secrets.SSH_PUB }}" > /root/.ssh/known_hosts
           mkdir /tmp/x86_64
+          pacman-key --recv-keys 11AB43077E240E19EA773113128753272FB3D91D
+          pacman-key --lsign-key 11AB43077E240E19EA773113128753272FB3D91D
           # eval "${{ secrets.RSYNC_GET }}"
 
       - name: Import GPG
@@ -48,6 +50,11 @@ jobs:
           
       - name: Build OBS dependencies
         run: |
+          echo "::group::librist"
+          git clone https://aur.archlinux.org/librist.git /tmp/librist
+          cd /tmp/librist
+          PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
+          echo "::endgroup"
           echo "::group::ffmpeg"
           git clone https://aur.archlinux.org/ffmpeg-obs.git /tmp/ff
           cd /tmp/ff
