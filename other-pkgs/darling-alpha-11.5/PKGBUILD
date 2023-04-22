@@ -23,7 +23,7 @@ conflicts=('darling' 'darling-git' 'darling-bin')
 provides=('darling' 'darling-git' 'darling-bin')
 
 # Darling git repo and all submodules.
-source=('git+https://github.com/darlinghq/darling.git#branch=update_sources_11.5_alpharelease2')
+source=('git+https://github.com/darlinghq/darling.git#branch=update_sources_11.5')
 
 # We skip md5 on all git repos
 md5sums=( 'SKIP' )
@@ -40,14 +40,12 @@ prepare() {
     echo "Set submodules url in .gitmodules"
     sed -i 's/url = ..\//url = https:\/\/github.com\/darlinghq\//g' .gitmodules
 
-    #set metal submodule branch
-    sed -i 's/metal.git/metal.git\n        branch = main/g' .gitmodules
-    git submodule sync --recursive
+    git checkout update_sources_11.5
+
+    git submodule sync
 
     echo "Initialize git submodules."
-    git  submodule update --force --init --recursive --remote
-
-
+    git  submodule update --init --recursive
 
     echo "Updating git submodules"
     git -c protocol.file.allow=always submodule update
