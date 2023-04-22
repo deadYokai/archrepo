@@ -49,6 +49,10 @@ jobs:
 
       - name: Build Darling
         run: |
+          # the absence of this file pisses me off
+          echo "#!/bin/bash" > /usr/bin/arch
+          echo "uname -m" >> /usr/bin/arch
+          chmod +x /usr/bin/arch
           mkdir /tmp/dar
           wget -O /tmp/dar/PKGBUILD https://raw.githubusercontent.com/deadYokai/archrepo/main/other-pkgs/darling-alpha-11.5/PKGBUILD
           cd /tmp/dar

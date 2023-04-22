@@ -70,7 +70,7 @@ build() {
     cd "$srcdir/$_gitname/build"
 
     echo "Running cmake."
-    cmake .. -DCMAKE_INSTALL_PREFIX=/usr
+    CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" cmake .. -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 
     echo "Running make."
     make
