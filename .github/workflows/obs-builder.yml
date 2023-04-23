@@ -29,6 +29,7 @@ jobs:
       - name: Setup container
         run: |
           echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
+          echo -e "[deadyokai]\nServer = https://repo.vilafox.xyz/x86_64" >> /etc/pacman.conf
           sed -i "s/SigLevel/#SigLevel/g" /etc/pacman.conf
           sed -i "s/LocalFileSigLevel/#LocalFileSigLevel/g" /etc/pacman.conf
           sed -i "s/RemoteFileSigLevel/#RemoteFileSigLevel/g" /etc/pacman.conf
@@ -55,27 +56,48 @@ jobs:
           echo "::group::librist"
           git clone https://aur.archlinux.org/librist.git /tmp/librist
           cd /tmp/librist
-          PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
+          curl -O checkver.sh 'https://raw.githubusercontent.com/deadYokai/archrepo/main/checkver.sh'
+          if [ $(bash checkver.sh) -eq 1 ]; then
+            PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
+          fi
+          rm -rf /tmp/librist
           echo "::endgroup"
           echo "::group::ffmpeg"
           git clone https://aur.archlinux.org/ffmpeg-obs.git /tmp/ff
           cd /tmp/ff
-          PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
+          curl -O checkver.sh 'https://raw.githubusercontent.com/deadYokai/archrepo/main/checkver.sh'
+          if [ $(bash checkver.sh) -eq 1 ]; then
+            PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
+          fi
+          rm -rf /tmp/ff
           echo "::endgroup"
           echo "::group::ftl-sdk"
           git clone https://aur.archlinux.org/ftl-sdk.git /tmp/ftl
           cd /tmp/ftl
-          PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
+          curl -O checkver.sh 'https://raw.githubusercontent.com/deadYokai/archrepo/main/checkver.sh'
+          if [ $(bash checkver.sh) -eq 1 ]; then
+            PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
+          fi
+          rm -rf /tmp/ftl
           echo "::endgroup"
           echo "::group::vlc-luajit"
           git clone https://aur.archlinux.org/vlc-luajit.git /tmp/vlc-luajit
           cd /tmp/vlc-luajit
-          PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
+          curl -O checkver.sh 'https://raw.githubusercontent.com/deadYokai/archrepo/main/checkver.sh'
+          if [ $(bash checkver.sh) -eq 1 ]; then
+            PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
+          fi
+          rm -rf /tmp/vlc-luajit
           echo "::endgroup"
           echo "::group::cef-minimal-obs-bin"
-          git clone https://aur.archlinux.org/cef-minimal-obs-bin.git /tmp/cef-minimal-obs-bin
-          cd /tmp/cef-minimal-obs-bin
-          PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
+          #git clone https://aur.archlinux.org/cef-minimal-obs-bin.git /tmp/cef-minimal-obs-bin
+          #cd /tmp/cef-minimal-obs-bin
+          #curl -O checkver.sh 'https://raw.githubusercontent.com/deadYokai/archrepo/main/checkver.sh'
+          #if [ $(bash checkver.sh) -eq 1 ]; then
+          #  PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
+          #fi
+          #rm -rf /tmp/cef-minimal-obs-bin
+          pacman -U 'https://builds.garudalinux.org/repos/chaotic-aur/x86_64/cef-minimal-obs-bin-103.0.0_5060_shared_textures_143.2591+g4204d54+chromium_103.0.5060.134_1-5-x86_64.pkg.tar.zst'
           echo "::endgroup"
 
       - name: Build OBS
