@@ -92,6 +92,7 @@ jobs:
           fi
           rm -rf /tmp/vlc-luajit
           echo "::endgroup"
+          cd ~
           echo "::group::libajantv2"
           git clone https://aur.archlinux.org/libajantv2.git /tmp/libajantv2
           cd /tmp/libajantv2
