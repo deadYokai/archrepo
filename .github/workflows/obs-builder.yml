@@ -62,6 +62,7 @@ jobs:
           fi
           rm -rf /tmp/librist
           echo "::endgroup"
+          cd ~
           echo "::group::ffmpeg"
           git clone https://aur.archlinux.org/ffmpeg-obs.git /tmp/ff
           cd /tmp/ff
@@ -71,6 +72,7 @@ jobs:
           fi
           rm -rf /tmp/ff
           echo "::endgroup"
+          cd ~
           echo "::group::ftl-sdk"
           git clone https://aur.archlinux.org/ftl-sdk.git /tmp/ftl
           cd /tmp/ftl
@@ -80,6 +82,7 @@ jobs:
           fi
           rm -rf /tmp/ftl
           echo "::endgroup"
+          cd ~
           echo "::group::vlc-luajit"
           git clone https://aur.archlinux.org/vlc-luajit.git /tmp/vlc-luajit
           cd /tmp/vlc-luajit
@@ -89,6 +92,7 @@ jobs:
           fi
           rm -rf /tmp/vlc-luajit
           echo "::endgroup"
+          cd ~
           echo "::group::cef-minimal-obs-bin"
           #git clone https://aur.archlinux.org/cef-minimal-obs-bin.git /tmp/cef-minimal-obs-bin
           #cd /tmp/cef-minimal-obs-bin
@@ -99,6 +103,7 @@ jobs:
           #rm -rf /tmp/cef-minimal-obs-bin
           pacman -U 'https://builds.garudalinux.org/repos/chaotic-aur/x86_64/cef-minimal-obs-bin-103.0.0_5060_shared_textures_143.2591+g4204d54+chromium_103.0.5060.134_1-5-x86_64.pkg.tar.zst'
           echo "::endgroup"
+          cd ~
 
       - name: Build OBS
         run: |
