@@ -56,7 +56,7 @@ jobs:
           echo "::group::librist"
           git clone https://aur.archlinux.org/librist.git /tmp/librist
           cd /tmp/librist
-          curl -O checkver.sh 'https://raw.githubusercontent.com/deadYokai/archrepo/main/checkver.sh'
+          curl -o checkver.sh 'https://raw.githubusercontent.com/deadYokai/archrepo/main/checkver.sh'
           if [ $(bash checkver.sh) -eq 1 ]; then
             PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
           fi
@@ -65,7 +65,7 @@ jobs:
           echo "::group::ffmpeg"
           git clone https://aur.archlinux.org/ffmpeg-obs.git /tmp/ff
           cd /tmp/ff
-          curl -O checkver.sh 'https://raw.githubusercontent.com/deadYokai/archrepo/main/checkver.sh'
+          curl -o checkver.sh 'https://raw.githubusercontent.com/deadYokai/archrepo/main/checkver.sh'
           if [ $(bash checkver.sh) -eq 1 ]; then
             PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
           fi
@@ -74,7 +74,7 @@ jobs:
           echo "::group::ftl-sdk"
           git clone https://aur.archlinux.org/ftl-sdk.git /tmp/ftl
           cd /tmp/ftl
-          curl -O checkver.sh 'https://raw.githubusercontent.com/deadYokai/archrepo/main/checkver.sh'
+          curl -o checkver.sh 'https://raw.githubusercontent.com/deadYokai/archrepo/main/checkver.sh'
           if [ $(bash checkver.sh) -eq 1 ]; then
             PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
           fi
@@ -83,7 +83,7 @@ jobs:
           echo "::group::vlc-luajit"
           git clone https://aur.archlinux.org/vlc-luajit.git /tmp/vlc-luajit
           cd /tmp/vlc-luajit
-          curl -O checkver.sh 'https://raw.githubusercontent.com/deadYokai/archrepo/main/checkver.sh'
+          curl -o checkver.sh 'https://raw.githubusercontent.com/deadYokai/archrepo/main/checkver.sh'
           if [ $(bash checkver.sh) -eq 1 ]; then
             PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
           fi
@@ -92,7 +92,7 @@ jobs:
           echo "::group::cef-minimal-obs-bin"
           #git clone https://aur.archlinux.org/cef-minimal-obs-bin.git /tmp/cef-minimal-obs-bin
           #cd /tmp/cef-minimal-obs-bin
-          #curl -O checkver.sh 'https://raw.githubusercontent.com/deadYokai/archrepo/main/checkver.sh'
+          #curl -o checkver.sh 'https://raw.githubusercontent.com/deadYokai/archrepo/main/checkver.sh'
           #if [ $(bash checkver.sh) -eq 1 ]; then
           #  PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
           #fi
