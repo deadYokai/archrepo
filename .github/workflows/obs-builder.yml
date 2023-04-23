@@ -92,6 +92,15 @@ jobs:
           fi
           rm -rf /tmp/vlc-luajit
           echo "::endgroup"
+          echo "::group::libajantv2"
+          git clone https://aur.archlinux.org/libajantv2.git /tmp/libajantv2
+          cd /tmp/libajantv2
+          curl -o checkver.sh 'https://raw.githubusercontent.com/deadYokai/archrepo/main/checkver.sh'
+          if [ $(bash checkver.sh) -eq 1 ]; then
+            PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
+          fi
+          rm -rf /tmp/libajantv2
+          echo "::endgroup"
           cd ~
           echo "::group::cef-minimal-obs-bin"
           #git clone https://aur.archlinux.org/cef-minimal-obs-bin.git /tmp/cef-minimal-obs-bin
