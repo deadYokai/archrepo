@@ -29,7 +29,12 @@ jobs:
       - name: Setup container
         run: |
           echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
-          pacman -Syu --noconfirm base-devel sudo git archlinux-keyring wget linux-headers rsync openssh
+          echo -e "[deadyokai]\nServer = https://repo.vilafox.xyz/x86_64" >> /etc/pacman.conf
+          sed -i "s/SigLevel/#SigLevel/g" /etc/pacman.conf
+          sed -i "s/LocalFileSigLevel/#LocalFileSigLevel/g" /etc/pacman.conf
+          sed -i "s/RemoteFileSigLevel/#RemoteFileSigLevel/g" /etc/pacman.conf
+          sed -i "s/\[options\]/\[options\]\nSigLevel = Never/g" /etc/pacman.conf
+          pacman -Syu --noconfirm base-devel sudo git archlinux-keyring wget linux-headers rsync openssh schedtool
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
           sed -i 's,exit $E_ROOT,echo but you know what you do,' /usr/bin/makepkg
           echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"128753272FB3D91D\"" >> /etc/makepkg.conf
@@ -46,6 +51,11 @@ jobs:
           gpg_private_key: ${{ secrets.PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASS }}
           
+      - name: Set Swap Space
+        uses: pierotofy/set-swap-space@master
+        with:
+          swap-size-gb: 4
+
       - name: Build kernel TKG
         run: |
           git clone https://github.com/Frogging-Family/linux-tkg.git /tmp/linux
@@ -65,7 +75,7 @@ jobs:
           sed -i 's/_config_fragments_no_confirm=\"\"/_config_fragments_no_confirm=\"true\"/g' customization.cfg
           sed -i 's/_menunconfig=\"\"/_menunconfig=\"false\"/g' customization.cfg
           sed -i 's/_diffconfig=\"\"/_diffconfig=\"false\"/g' customization.cfg
-          echo -e '_custom_pkgbase="linux-tkg-pds-llvm"\n' >> customization.cfg
+          echo -e "_custom_pkgbase=\"linux-tkg-pds-llvm\"\n" >> customization.cfg
           cat customization.cfg
           echo | PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
