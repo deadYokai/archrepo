@@ -53,7 +53,7 @@ jobs:
           echo "Write config"
           sed -i 's/_cpusched=\"\"/_cpusched=\"pds\"/g' customization.cfg
           sed -i 's/_compiler=\"\"/_compiler=\"llvm\"/g' customization.cfg
-          sed -i 's/_lto_mode=\"\"/_lto_mode=\"thin\"/g' customization.cfg
+          sed -i 's/_lto_mode=\"\"/_lto_mode=\"full\"/g' customization.cfg
           sed -i 's/_sched_yield_type=\"\"/_sched_yield_type=\"0\"/g' customization.cfg
           sed -i 's/_rr_interval=\"\"/_rr_interval=\"default\"/g' customization.cfg
           sed -i 's/_processor_opt=\"\"/_processor_opt=\"generic_v3\"/g' customization.cfg
@@ -65,6 +65,7 @@ jobs:
           sed -i 's/_config_fragments_no_confirm=\"\"/_config_fragments_no_confirm=\"true\"/g' customization.cfg
           sed -i 's/_menunconfig=\"\"/_menunconfig=\"false\"/g' customization.cfg
           sed -i 's/_diffconfig=\"\"/_diffconfig=\"false\"/g' customization.cfg
+          echo '_custom_pkgbase="linux-tkg-pds-llvm"' >> customization.cfg
           echo | PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
       - name: Upload files
