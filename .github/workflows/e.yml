@@ -43,7 +43,6 @@ jobs:
 
       - name: Packing database
         run: |
-          mkdir /tmp/x86_64
           cd /tmp/x86_64/
           echo "${{ secrets.SSH_PUB }}" > ssh_p
           echo "${{ secrets.SSH_PRIVATE }}" > pey
