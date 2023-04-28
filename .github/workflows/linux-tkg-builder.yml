@@ -50,11 +50,6 @@ jobs:
         with:
           gpg_private_key: ${{ secrets.PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASS }}
-          
-      - name: Set Swap Space
-        uses: pierotofy/set-swap-space@master
-        with:
-          swap-size-gb: 4
 
       - name: Build kernel TKG
         run: |
