@@ -49,7 +49,7 @@ jobs:
       - name: Build & Configure
         run: |
           git clone https://aur.archlinux.org/vscodium-electron.git /tmp/vscodium
-          cd /tmp/vscodium-electron
+          cd /tmp/vscodium
           PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
       - name: Upload files
