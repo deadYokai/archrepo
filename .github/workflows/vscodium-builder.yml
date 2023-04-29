@@ -48,7 +48,7 @@ jobs:
 
       - name: Build & Configure
         run: |
-          mv ${GITHUB_WORKSPACE}/other-pkgs/vscodium-electron  /tmp/vscodium
+          git clone https://aur.archlinux.org/vscodium-electron.git /tmp/vscodium
           cd /tmp/vscodium-electron
           PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
