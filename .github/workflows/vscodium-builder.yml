@@ -46,6 +46,19 @@ jobs:
           gpg_private_key: ${{ secrets.PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASS }}
 
+      - name: Build & Configure dependencies
+        run: |
+          echo "::group::nvm"
+          git clone https://aur.archlinux.org/nvm.git /tmp/nvm
+          cd /tmp/nvm
+          curl -o checkver.sh 'https://raw.githubusercontent.com/deadYokai/archrepo/main/checkver.sh'
+          if [ $(bash checkver.sh) -eq 1 ]; then
+            PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
+          fi
+          rm -rf /tmp/nvm
+          echo "::endgroup"
+          cd ~
+
       - name: Build & Configure
         run: |
           git clone https://aur.archlinux.org/vscodium-electron.git /tmp/vscodium
