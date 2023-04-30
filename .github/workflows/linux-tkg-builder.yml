@@ -60,7 +60,8 @@ jobs:
           echo "Write config"
           sed -i 's/_cpusched=\"\"/_cpusched=\"pds\"/g' customization.cfg
           sed -i 's/_compiler=\"\"/_compiler=\"llvm\"/g' customization.cfg
-          sed -i 's/_lto_mode=\"\"/_lto_mode=\"full\"/g' customization.cfg
+          # sed -i 's/_lto_mode=\"\"/_lto_mode=\"full\"/g' customization.cfg
+          sed -i 's/_lto_mode=\"\"/_lto_mode=\"no\"/g' customization.cfg
           sed -i 's/_sched_yield_type=\"\"/_sched_yield_type=\"0\"/g' customization.cfg
           sed -i 's/_rr_interval=\"\"/_rr_interval=\"default\"/g' customization.cfg
           sed -i 's/_processor_opt=\"\"/_processor_opt=\"generic_v3\"/g' customization.cfg
