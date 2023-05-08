@@ -73,8 +73,9 @@ jobs:
           sed -i 's/_menunconfig=\"\"/_menunconfig=\"false\"/g' customization.cfg
           sed -i 's/_diffconfig=\"\"/_diffconfig=\"false\"/g' customization.cfg
           echo -e "_custom_pkgbase=\"linux-tkg-pds-llvm\"\n" >> customization.cfg
+          sed -i 's/_numadisable=\"\"/_numadisable=\"true\"/g' customization.cfg
           cat customization.cfg
-          echo -e "1\n" | PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
+          echo | PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
       - name: Upload files
         run: |
