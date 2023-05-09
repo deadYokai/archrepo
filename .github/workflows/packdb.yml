@@ -30,14 +30,14 @@ jobs:
             port: 22
             script: |
                 echo "removing..."
-                rm -rf ~/tempdb
+                [ -d "/home/archrepo/tempdb" ] && rm -rf /home/archrepo/tempdb
                 echo "moving..."
-                mv ~/x86_64 ~/tempdb
+                mv /home/archrepo/x86_64 /home/archrepo/tempdb
                 echo "creating..."
-                mkdir ~/x86_64 && cd ~/x86_64
+                mkdir /home/archrepo/x86_64 && cd /home/archrepo/x86_64
                 echo "packing..."
-                repo-add --verify --sign deadyokai.db.tar.gz "~/tempdb/*.pkg.tar.zst"
-                for file in $(tar tzf deadyokai.files.tar.gz | awk -F/ '{ print $1 }' | uniq); do mv ~/tempdb/$file-*.pkg.tar.zst .; done
-                for file in $(tar tzf deadyokai.files.tar.gz | awk -F/ '{ print $1 }' | uniq); do mv ~/tempdb/$file-*.pkg.tar.zst.sig .; done
+                repo-add --verify --sign deadyokai.db.tar.gz /home/archrepo/tempdb/*.pkg.tar.zst
+                for file in $(tar tzf deadyokai.files.tar.gz | awk -F/ '{ print $1 }' | uniq); do mv /home/archrepo/tempdb/$file-*.pkg.tar.zst .; done
+                for file in $(tar tzf deadyokai.files.tar.gz | awk -F/ '{ print $1 }' | uniq); do mv /home/archrepo/tempdb/$file-*.pkg.tar.zst.sig .; done
                 echo "removing..."
-                rm -rf ~/tempdb
+                rm -rf /home/archrepo/tempdb
