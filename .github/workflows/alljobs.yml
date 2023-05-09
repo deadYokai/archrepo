@@ -2,33 +2,66 @@ name: Repo builder
 
 on:
   workflow_dispatch:
+    inputs:
+        pipewire:
+            type: boolean
+            description: build pipewire
+        nvidia-tkg:
+            type: boolean
+            description: build nvidia-tkg
+        wine-staging:
+            type: boolean
+            description: build wine-staging
+        linux-tkg:
+            type: boolean
+            description: build linux-tkg
+        vscodium:
+            type: boolean
+            description: build vscodium
+        obs:
+            type: boolean
+            description: build obs
+        egl-wayland:
+            type: boolean
+            description: build egl-wayland
 jobs:
   pipewire:
+    if: ${{ github.event.inputs.pipewire == 'true' }}
     uses: ./.github/workflows/pipewire-builder.yml
     secrets: inherit
 
   nvidia-tkg:
+    if: ${{ github.event.inputs.nvidia-tkg == 'true' }}
     uses: ./.github/workflows/nvidia-tkg-builder.yml
     secrets: inherit
 
   wine-staging:
+    if: ${{ github.event.inputs.wine-staging == 'true' }}
     uses: ./.github/workflows/wine-builder.yml
     secrets: inherit
 
   linux-tkg:
+    if: ${{ github.event.inputs.linux-tkg == 'true' }}
     uses: ./.github/workflows/linux-tkg-builder.yml
     secrets: inherit
 
-  dds-thumb:
-    uses: ./.github/workflows/kde-dds-builder.yml
+  vscodium-builder:
+    if: ${{ github.event.inputs.vscodium == 'true' }}
+    uses: ./.github/workflows/vscodium-builder.yml
     secrets: inherit
 
-  64gram:
-    uses: ./.github/workflows/64gram-builder.yml
+  obs-builder:
+    if: ${{ github.event.inputs.obs == 'true' }}
+    uses: ./.github/workflows/obs-builder.yml
+    secrets: inherit
+
+  egl-wayland-builder:
+    if: ${{ github.event.inputs.egl-wayland == 'true' }}
+    uses: ./.github/workflows/egl-wayland-builder.yml
     secrets: inherit
 
   packdb:
     if: ${{ always() }}
-    needs: [pipewire, nvidia-tkg, wine-staging, linux-tkg, dds-thumb, 64gram]
+    needs: [pipewire, nvidia-tkg, wine-staging, linux-tkg, egl-wayland-builder, obs-builder, vscodium-builder]
     uses: ./.github/workflows/packdb.yml
     secrets: inherit
