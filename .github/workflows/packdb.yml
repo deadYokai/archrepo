@@ -14,7 +14,6 @@ jobs:
   pack:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    container: archlinux:latest
     
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the
@@ -23,18 +22,17 @@ jobs:
     
     steps:
       - name: Packing database
-        run: |
-          echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
-          pacman -Syu --noconfirm archlinux-keyring openssh
-          mkdir -p /root/.ssh/
-          echo "${{ secrets.SSH_PRIVATE }}" > /root/.ssh/id_rsa
-          chmod 600 /root/.ssh/id_rsa
-          echo "${{ secrets.SSH_PUB }}" > /root/.ssh/known_hosts
-          ssh -i /root/.ssh/id_rsa -l archrepo 80.208.225.101 "rm -rf ~/tempdb"
-          ssh -i /root/.ssh/id_rsa -l archrepo 80.208.225.101 "mv ~/x86_64 ~/tempdb && mkdir ~/x86_64"
-          ssh -i /root/.ssh/id_rsa -l archrepo 80.208.225.101 "cd ~/x86_64 && repo-add --verify --sign deadyokai.db.tar.gz ~/tempdb/*.pkg.tar.zst"
-          ssh -i /root/.ssh/id_rsa -l archrepo 80.208.225.101 "cd ~/x86_64 && for file in $(tar tzf deadyokai.files.tar.gz | awk -F/ '{ print $1 }' | uniq); do mv ~/tempdb/$file-*.pkg.tar.zst .; done"
-          ssh -i /root/.ssh/id_rsa -l archrepo 80.208.225.101 "cd ~/x86_64 && for file in $(tar tzf deadyokai.files.tar.gz | awk -F/ '{ print $1 }' | uniq); do mv ~/tempdb/$file-*.pkg.tar.zst.sig .; done"
-
-          
-          
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+            host: "80.208.225.101"
+            username: "archrepo"
+            key: ${{ secrets.SSH_PRIVATE }}
+            port: 22
+            script: |
+                rm -rf ~/tempdb
+                mv ~/x86_64 ~/tempdb
+                mkdir ~/x86_64
+                cd ~/x86_64
+                repo-add --verify --sign deadyokai.db.tar.gz ~/tempdb/*.pkg.tar.zst
+                for file in $(tar tzf deadyokai.files.tar.gz | awk -F/ '{ print $1 }' | uniq); do mv ~/tempdb/$file-*.pkg.tar.zst .; done
+                for file in $(tar tzf deadyokai.files.tar.gz | awk -F/ '{ print $1 }' | uniq); do mv ~/tempdb/$file-*.pkg.tar.zst.sig .; done
