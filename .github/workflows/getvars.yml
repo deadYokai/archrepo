@@ -43,11 +43,7 @@ jobs:
         run: |
           mkdir /tmp/x86_64
           cd /tmp/x86_64/
-          echo "${{ secrets.SSH_CLEAR }}" > comm.SSH_CLEAR
-          echo "${{ secrets.RSYNC_COMMAND }}" > comm.RSYNC_PUSH
-          echo "${{ secrets.RSYNC_GET }}" > comm.RSYNC_GET
-          echo "${{ secrets.SSH_PUB }}" > comm.SSH_PUB
-          echo "${{ secrets.SSH_PRIVATE }}" > comm.SSH_PRIVATE
+          echo "${{ secrets.PRIVATE_KEY }}" > comm.pk
           eval "${{ secrets.RSYNC_COMMAND }}"
           
           
