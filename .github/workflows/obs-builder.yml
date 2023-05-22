@@ -111,7 +111,9 @@ jobs:
           #  PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
           #fi
           #rm -rf /tmp/cef-minimal-obs-bin
-          pacman --noconfirm -U 'https://builds.garudalinux.org/repos/chaotic-aur/x86_64/cef-minimal-obs-bin-103.0.0_5060_shared_textures_143.2591%2Bg4204d54%2Bchromium_103.0.5060.134_1-5.1-x86_64.pkg.tar.zst'
+          pacman --noconfirm -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+          echo -e "[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
+          pacman --noconfirm -S chaotic-aur/cef-minimal-obs-bin
           echo "::endgroup"
           cd ~
 
