@@ -113,6 +113,7 @@ jobs:
           #rm -rf /tmp/cef-minimal-obs-bin
           pacman --noconfirm -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
           echo -e "[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
+          pacman --noconfirm -Syy
           pacman --noconfirm -S chaotic-aur/cef-minimal-obs-bin
           echo "::endgroup"
           cd ~
