@@ -54,7 +54,7 @@ jobs:
           #wget "https://raw.githubusercontent.com/qumaciel/nvidia-all/535.43.02/PKGBUILD"
           sed -i 's/_open_source_modules=\"\"/_open_source_modules=\"false\"/g' customization.cfg
           sed -i 's/_dkms=\"\"/_dkms=\"true\"/g' customization.cfg
-          sed -i 's/_driver_version=\"\"/_driver_version=\"latest\"/g' customization.cfg
+          sed -i 's/_driver_version=\"\"/_driver_version=\"525.116.03\"/g' customization.cfg
           sed -i 's/_driver_branch=\"\"/_driver_branch=\"regular\"/g' customization.cfg
           PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
