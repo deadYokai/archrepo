@@ -68,6 +68,7 @@ jobs:
         run: |
           git clone https://aur.archlinux.org/vscodium-electron.git /tmp/vscodium
           cd /tmp/vscodium
+          sed -i 's/_electron=electron/_electron=electron19/g' PKGBUILD
           PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
       - name: Upload files
