@@ -51,6 +51,9 @@ jobs:
         run: |
           git clone https://aur.archlinux.org/darling-git.git /tmp/dar
           cd /tmp/dar
+          sed -i 's/darling\/submodules\/pam_modules.url/pam_modules.url/g' PKGBUILD
+          sed -i 's/darling\/submodules\/IOGraphics.url/IOGraphics.url/g' PKGBUILD
+          sed -i 's/darling\/submodules\/IOHIDFamily.url/IOHIDFamily.url/g' PKGBUILD
           PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
       - name: Upload files
