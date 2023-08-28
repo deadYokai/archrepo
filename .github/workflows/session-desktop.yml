@@ -29,7 +29,12 @@ jobs:
       - name: Setup container
         run: |
           echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
-          pacman -Syu --noconfirm base-devel sudo git archlinux-keyring wget linux-headers rsync openssh
+          echo -e "[deadyokai]\nServer = https://repo.vilafox.xyz/x86_64" >> /etc/pacman.conf
+          sed -i "s/SigLevel/#SigLevel/g" /etc/pacman.conf
+          sed -i "s/LocalFileSigLevel/#LocalFileSigLevel/g" /etc/pacman.conf
+          sed -i "s/RemoteFileSigLevel/#RemoteFileSigLevel/g" /etc/pacman.conf
+          sed -i "s/\[options\]/\[options\]\nSigLevel = Never/g" /etc/pacman.conf
+          pacman -Syu --noconfirm base-devel sudo git archlinux-keyring wget linux-headers rsync openssh yarn
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
           sed -i 's,exit $E_ROOT,echo but you know what you do,' /usr/bin/makepkg
           echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"128753272FB3D91D\"" >> /etc/makepkg.conf
@@ -46,6 +51,18 @@ jobs:
           gpg_private_key: ${{ secrets.PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASS }}
 
+      - name: Build dependencies
+        run: |
+          echo "::group::nvm"
+          git clone https://aur.archlinux.org/nvm.git /tmp/nvm
+          cd /tmp/nvm
+          curl -o checkver.sh 'https://raw.githubusercontent.com/deadYokai/archrepo/main/checkver.sh'
+          if [ $(bash checkver.sh) -eq 1 ]; then
+            PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
+          fi
+          rm -rf /tmp/nvm
+          cd ~
+          echo "::endgroup"
       - name: Build
         run: |
           git clone https://aur.archlinux.org/session-desktop-git /tmp/session-desktop-git
