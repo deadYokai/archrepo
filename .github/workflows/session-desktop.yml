@@ -67,7 +67,9 @@ jobs:
         run: |
           git clone https://aur.archlinux.org/session-desktop-git /tmp/session-desktop-git
           cd /tmp/session-desktop-git
-          sed -i 's/package() {/package() { \n ls $srcdir\/session-desktop\/release\//g' PKGBUILD
+          sed -i '39a\
+                    sed -i "s/\\"version\\": \\".*\\",/\\"version\\": \\"$(sed -E "$_semver_pat" <<< "$pkgver")\\",/" package.json \
+                    source /usr/share/nvm/init-nvm.sh && nvm install 18.15.0' PKGBUILD
           PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
       - name: Upload files
