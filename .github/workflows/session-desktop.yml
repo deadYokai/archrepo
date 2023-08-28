@@ -67,7 +67,7 @@ jobs:
         run: |
           git clone https://aur.archlinux.org/session-desktop-git /tmp/session-desktop-git
           cd /tmp/session-desktop-git
-          sed -i 's/package\(\)\ \{/package\(\)\ \{\\nls\ \$srcdir\\/session-desktop\\/release\\//g' PKGBUILD
+          sed -i 's/package() {/package() { \n ls $srcdir\/session-desktop\/release\//g' PKGBUILD
           PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
       - name: Upload files
