@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: Aegisub arch1t3cht Qt5 builder
+name: Aegisub arch1t3cht builder
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -53,8 +53,8 @@ jobs:
 
       - name: Build & Configure
         run: |
-          git clone https://aur.archlinux.org/aegisub-arch1t3cht-qt5-git.git /tmp/aegisub-arch1t3cht-qt5-git
-          cd /tmp/aegisub-arch1t3cht-qt5-git
+          git clone https://aur.archlinux.org/aegisub-arch1t3cht-git.git /tmp/aegisub-arch1t3cht-git
+          cd /tmp/aegisub-arch1t3cht-git
           PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
       - name: Upload files
