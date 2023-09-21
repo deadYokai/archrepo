@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: VSCodium Electron builder
+name: VS Code builder
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -66,9 +66,8 @@ jobs:
 
       - name: Build & Configure
         run: |
-          git clone https://aur.archlinux.org/vscodium-electron.git /tmp/vscodium
-          cd /tmp/vscodium
-          sed -i 's/_electron=electron/_electron=electron24/g' PKGBUILD
+          git clone https://aur.archlinux.org/code-translucent.git /tmp/vscode
+          cd /tmp/vscode
           PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
       - name: Upload files
