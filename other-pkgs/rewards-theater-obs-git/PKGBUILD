@@ -15,6 +15,7 @@ makedepends=(
 	'cmake'
 	'extra-cmake-modules'
 	'libx11'
+	'boost'
 	'qt6-base'
 	'qt6-svg'
 )
