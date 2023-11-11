@@ -34,7 +34,9 @@ jobs:
           sed -i "s/LocalFileSigLevel/#LocalFileSigLevel/g" /etc/pacman.conf
           sed -i "s/RemoteFileSigLevel/#RemoteFileSigLevel/g" /etc/pacman.conf
           sed -i "s/\[options\]/\[options\]\nSigLevel = Never/g" /etc/pacman.conf
-          pacman -Syu --noconfirm base-devel sudo git archlinux-keyring wget linux-headers rsync openssh pipewire-jack mbedtls2
+          pacman --noconfirm -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+          echo -e "[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
+          pacman -Syyu --noconfirm base-devel sudo git archlinux-keyring wget linux-headers rsync openssh pipewire-jack mbedtls2
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
           sed -i 's,exit $E_ROOT,echo but you know what you do,' /usr/bin/makepkg
           echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"128753272FB3D91D\"" >> /etc/makepkg.conf
@@ -50,77 +52,10 @@ jobs:
         with:
           gpg_private_key: ${{ secrets.PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASS }}
-          
-      - name: Build OBS dependencies
-        run: |
-          echo "::group::librist"
-          git clone https://aur.archlinux.org/librist.git /tmp/librist
-          cd /tmp/librist
-          curl -o checkver.sh 'https://raw.githubusercontent.com/deadYokai/archrepo/main/checkver.sh'
-          if [ $(bash checkver.sh) -eq 1 ]; then
-            PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
-          fi
-          rm -rf /tmp/librist
-          echo "::endgroup"
-          cd ~
-          echo "::group::ffmpeg"
-          git clone https://aur.archlinux.org/ffmpeg-obs.git /tmp/ff
-          cd /tmp/ff
-          curl -o checkver.sh 'https://raw.githubusercontent.com/deadYokai/archrepo/main/checkver.sh'
-          if [ $(bash checkver.sh) -eq 1 ]; then
-            PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
-          fi
-          rm -rf /tmp/ff
-          echo "::endgroup"
-          cd ~
-          echo "::group::ftl-sdk"
-          git clone https://aur.archlinux.org/ftl-sdk.git /tmp/ftl
-          cd /tmp/ftl
-          curl -o checkver.sh 'https://raw.githubusercontent.com/deadYokai/archrepo/main/checkver.sh'
-          if [ $(bash checkver.sh) -eq 1 ]; then
-            PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
-          fi
-          rm -rf /tmp/ftl
-          echo "::endgroup"
-          cd ~
-          echo "::group::vlc-luajit"
-          git clone https://aur.archlinux.org/vlc-luajit.git /tmp/vlc-luajit
-          cd /tmp/vlc-luajit
-          curl -o checkver.sh 'https://raw.githubusercontent.com/deadYokai/archrepo/main/checkver.sh'
-          if [ $(bash checkver.sh) -eq 1 ]; then
-            PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
-          fi
-          rm -rf /tmp/vlc-luajit
-          echo "::endgroup"
-          cd ~
-          echo "::group::libajantv2"
-          git clone https://aur.archlinux.org/libajantv2.git /tmp/libajantv2
-          cd /tmp/libajantv2
-          curl -o checkver.sh 'https://raw.githubusercontent.com/deadYokai/archrepo/main/checkver.sh'
-          if [ $(bash checkver.sh) -eq 1 ]; then
-            PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
-          fi
-          rm -rf /tmp/libajantv2
-          echo "::endgroup"
-          cd ~
-          echo "::group::cef-minimal-obs-bin"
-          #git clone https://aur.archlinux.org/cef-minimal-obs-bin.git /tmp/cef-minimal-obs-bin
-          #cd /tmp/cef-minimal-obs-bin
-          #curl -o checkver.sh 'https://raw.githubusercontent.com/deadYokai/archrepo/main/checkver.sh'
-          #if [ $(bash checkver.sh) -eq 1 ]; then
-          #  PKGDEST=/tmp/x86_64 makepkg --noconfirm -si --sign
-          #fi
-          #rm -rf /tmp/cef-minimal-obs-bin
-          pacman --noconfirm -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
-          echo -e "[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
-          pacman --noconfirm -Syy
-          pacman --noconfirm -S chaotic-aur/cef-minimal-obs-bin
-          echo "::endgroup"
-          cd ~
 
       - name: Build OBS
         run: |
-          git clone https://aur.archlinux.org/obs-studio-browser.git /tmp/obs
+          mv ${GITHUB_WORKSPACE}/other-pkgs/obs /tmp/obs
           cd /tmp/obs
           PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
