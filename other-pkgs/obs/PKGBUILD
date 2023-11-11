@@ -147,6 +147,7 @@ build() {
     -DENABLE_AJA=ON \
     -DENABLE_WEBRTC=ON \
     -DCEF_ROOT_DIR="cef_binary_5060_linux64" \
+    -DOAUTH_BASE_URL="https://repo.vilafox.xyz/oauth" \
     -Wno-dev
 
     sed -i "s|#define OBS_VERSION |#define OBS_VERSION \"$pkgver-browser-$pkgrel\" //|" build/config/obsconfig.h

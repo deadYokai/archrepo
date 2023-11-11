@@ -25,6 +25,11 @@ jobs:
       # added or changed files to the repository.
       contents: write
     
+    env:
+        TWITCH_HASH: ${{ secrets.TWITCH_HASH }}
+        TWITCH_CLIENTID: ${{ secrets.TWITCH_CLIENT }}
+        OAUTH_BASE_URL: ${{ secrets.TWITCH_URL }}
+
     steps:
       - name: Setup container
         run: |
