@@ -48,6 +48,8 @@ jobs:
           gpg_private_key: ${{ secrets.PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASS }}
 
+      - uses: actions/checkout@v2
+
       - name: Build OBS
         run: |
           mv ${GITHUB_WORKSPACE}/other-pkgs/obs /tmp/obs
