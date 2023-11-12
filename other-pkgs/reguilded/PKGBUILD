@@ -1,14 +1,15 @@
 # Maintainer: PhantomX <real.phantomx+aur@proton.me>
+# ReGuilded added: deadYokai
 
-_pkgname=reguilded
+_pkgname=guilded
 _electron=electron
-pkgname=${_pkgname}
+pkgname=reguilded
 pkgver=1.0.9224397+0.0.4a6
 pkgrel=1
-pkgdesc="Chat for Gaming Communities using the system provided electron for increased security and performance"
+pkgdesc="Chat for Gaming Communities using the system provided electron for increased security and performance with ReGuilded"
 arch=('x86_64')
-provides=("${_pkgname}" "guilded" "guilded_arch_electron")
-conflicts=("${_pkgname}" "guilded" "guilded_arch_electron")
+provides=("${_pkgname}" "guilded" "guilded_arch_electron" "reguilded")
+conflicts=("${_pkgname}" "guilded" "guilded_arch_electron" "reguilded")
 url="https://www.guilded.gg/"
 license=('custom')
 depends=("${_electron}" 'gtk3' 'libnotify' 'nss' 'libxss' 'libxtst' 'xdg-utils' 'at-spi2-core'
