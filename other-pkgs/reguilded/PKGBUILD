@@ -5,11 +5,11 @@ _pkgname=guilded
 _electron=electron
 pkgname=reguilded
 pkgver=1.0.9224397+0.0.4a6
-pkgrel=1
+pkgrel=2
 pkgdesc="Chat for Gaming Communities using the system provided electron for increased security and performance with ReGuilded"
 arch=('x86_64')
-provides=("${_pkgname}" "guilded" "guilded_arch_electron" "reguilded")
-conflicts=("${_pkgname}" "guilded" "guilded_arch_electron" "reguilded")
+provides=("${_pkgname}" "guilded" "guilded_arch_electron")
+conflicts=("${_pkgname}" "guilded" "guilded_arch_electron")
 url="https://www.guilded.gg/"
 license=('custom')
 depends=("${_electron}" 'gtk3' 'libnotify' 'nss' 'libxss' 'libxtst' 'xdg-utils' 'at-spi2-core'
@@ -40,11 +40,11 @@ package() {
   mv opt/Guilded/resources/app.asar.unpacked opt/Guilded/resources/_guilded/app.asar.unpacked
   mkdir opt/Guilded/resources/app
 
+  echo "require(\"/opt/ReGuilded/reguilded.asar\")" > opt/Guilded/resources/app/index.js
+  echo "{\"name\": \"Guilded\", \"main\": \"index.js\"}" > opt/Guilded/resources/app/package.json
+
   # Copy Relevant data
   cp -r opt/Guilded/resources "$pkgdir"/usr/share/$_pkgname/
-
-  echo "require(\"/opt/ReGuilded/reguilded.asar\")" | tee opt/Guilded/resources/app/index.js
-  echo "{\"name\": \"Guilded\", \"main\": \"index.js\"}" | tee opt/Guilded/resources/app/package.json
 
   install -d "$pkgdir"/usr/{bin,share/{icons,applications,doc}}
   install -Dm 755 "${srcdir}/guilded-launcher.sh" "${pkgdir}/usr/bin/${_pkgname}"
