@@ -48,7 +48,7 @@ jobs:
 
       - name: Build PipeWire
         run: |
-          pacman -U "https://mirror.mia11.us.leaseweb.net/archlinux/extra-testing/os/x86_64/roc-toolkit-0.3.0-1-x86_64.pkg.tar.zst"
+          pacman --noconfirm -U "https://mirror.mia11.us.leaseweb.net/archlinux/extra-testing/os/x86_64/roc-toolkit-0.3.0-1-x86_64.pkg.tar.zst"
           git clone https://aur.archlinux.org/pipewire-full-git.git /tmp/pw
           cd /tmp/pw
           PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
