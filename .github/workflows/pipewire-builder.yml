@@ -51,6 +51,8 @@ jobs:
           pacman --noconfirm -U "https://mirror.mia11.us.leaseweb.net/archlinux/extra-testing/os/x86_64/roc-toolkit-0.3.0-1-x86_64.pkg.tar.zst"
           git clone https://aur.archlinux.org/pipewire-full-git.git /tmp/pw
           cd /tmp/pw
+          $(cat ${srcdir}/pipewire/meson.build | grep -m1 apiversion | grep -o "[[:digit:]]*" | paste -sd'.')
+          sed -i 's/_ver=${pkgver:0:3}/_ver=\"$(cat ${srcdir}/pipewire/meson.build | grep -m1 apiversion | grep -o \"[[:digit:]]*\" | paste -sd\'.\')\"/g'
           PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
       - name: Upload files
