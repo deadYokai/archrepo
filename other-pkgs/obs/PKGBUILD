@@ -112,10 +112,8 @@ source=(
   "obs-websocket::git+https://github.com/obsproject/obs-websocket.git"
   "cef_binary_5060_linux64::https://cdn-fastly.obsproject.com/downloads/cef_binary_5060_linux64.tar.bz2"
   "ffmpeg61.patch::https://patch-diff.githubusercontent.com/raw/obsproject/obs-studio/pull/9935.patch"
-  "wayland.patch::wayland.patch"
 )
 sha256sums=(
-  "SKIP"
   "SKIP"
   "SKIP"
   "SKIP"
