@@ -7,7 +7,7 @@
 
 pkgname=obs-studio-browser-dy
 pkgver=30.0.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Free and open source software for video recording and live streaming. With everything except service integration"
 arch=("x86_64" "aarch64")
 url="https://github.com/obsproject/obs-studio"
@@ -111,8 +111,12 @@ source=(
   "obs-browser::git+https://github.com/obsproject/obs-browser.git"
   "obs-websocket::git+https://github.com/obsproject/obs-websocket.git"
   "cef_binary_5060_linux64::https://cdn-fastly.obsproject.com/downloads/cef_binary_5060_linux64.tar.bz2"
+  "ffmpeg61.patch::https://patch-diff.githubusercontent.com/raw/obsproject/obs-studio/pull/9935.patch"
+  "wayland.patch::wayland.patch"
 )
 sha256sums=(
+  "SKIP"
+  "SKIP"
   "SKIP"
   "SKIP"
   "SKIP"
@@ -124,10 +128,13 @@ if [[ $CARCH == 'x86_64' ]]; then
 fi
 
 prepare() {
+
   cd "$srcdir/obs-studio"
   git config submodule.plugins/obs-browser.url $srcdir/obs-browser
   git config submodule.plugins/obs-websocket.url $srcdir/obs-websocket
   git -c protocol.file.allow=always submodule update
+
+  git apply $srcdir/ffmpeg61.patch
 }
 
 build() {
@@ -144,10 +151,12 @@ build() {
     -DENABLE_SNDIO=ON \
     -DENABLE_BROWSER=ON \
     -DOBS_VERSION_OVERRIDE="$pkgver" \
-    -DENABLE_AJA=ON \
+    -DENABLE_AJA=OFF \
     -DENABLE_WEBRTC=ON \
-    -DCEF_ROOT_DIR="cef_binary_5060_linux64" \
-    -DOAUTH_BASE_URL="https://repo.vilafox.xyz/oauth" \
+    -DCEF_ROOT_DIR="$srcdir/cef_binary_5060_linux64" \
+    -DOAUTH_BASE_URL="https://api.vilafox.xyz/obs-auth/" \
+    -DTWITCH_CLIENTID="b2bllaryafosluaw7sxfx93wwvx21v" \
+    -DTWITCH_HASH="0" \
     -Wno-dev
 
     sed -i "s|#define OBS_VERSION |#define OBS_VERSION \"$pkgver-browser-$pkgrel\" //|" build/config/obsconfig.h
