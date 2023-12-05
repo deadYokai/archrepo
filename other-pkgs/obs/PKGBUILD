@@ -137,7 +137,7 @@ prepare() {
   git -c protocol.file.allow=always submodule update
 
   git apply $srcdir/cherry-picks.patch
-  git apply $srcdir/ffmpeg61.patch
+#   git apply $srcdir/ffmpeg61.patch
   git apply $srcdir/cherry-picks2.patch
 }
 
