@@ -7,7 +7,7 @@
 
 pkgname=obs-studio-browser-dy
 pkgver=30.0.0
-pkgrel=4
+pkgrel=5
 pkgdesc="Free and open source software for video recording and live streaming. With everything except service integration"
 arch=("x86_64" "aarch64")
 url="https://github.com/obsproject/obs-studio"
@@ -114,8 +114,10 @@ source=(
   "cherry-picks.patch::https://github.com/obsproject/obs-studio/pull/9897.patch"
   "ffmpeg61.patch::https://patch-diff.githubusercontent.com/raw/obsproject/obs-studio/pull/9935.patch"
   "cherry-picks2.patch::https://github.com/obsproject/obs-studio/pull/9965.patch"
+  "ffmpeg-av.patch::https://github.com/obsproject/obs-studio/commit/758b47d4ed9a25b8d64ad481d8d039990b9e57c9.patch"
 )
 sha256sums=(
+  "SKIP"
   "SKIP"
   "SKIP"
   "SKIP"
@@ -137,8 +139,9 @@ prepare() {
   git -c protocol.file.allow=always submodule update
 
   git apply $srcdir/cherry-picks.patch
-#   git apply $srcdir/ffmpeg61.patch
+  git apply $srcdir/ffmpeg61.patch
   git apply $srcdir/cherry-picks2.patch
+  git apply $srcdir/ffmpeg-av.patch
 }
 
 build() {
