@@ -27,7 +27,7 @@ jobs:
           echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
           pacman -Syu --noconfirm base-devel sudo git archlinux-keyring rsync openssh
           sed -i 's,exit $E_ROOT,echo but you know what you do,' /usr/bin/makepkg
-          echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"128753272FB3D91D\"" >> /etc/makepkg.conf
+          echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"11AB43077E240E19EA773113128753272FB3D91D\"" >> /etc/makepkg.conf
           mkdir -p /root/.ssh/
           echo "${{ secrets.SSH_PRIVATE }}" > /root/.ssh/id_rsa
           chmod 600 /root/.ssh/id_rsa
