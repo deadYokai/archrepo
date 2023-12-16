@@ -29,7 +29,7 @@ jobs:
       - name: Setup container
         run: |
           echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
-          echo -e "[deadyokai]\nServer = https://repo.vilafox.xyz/x86_64" >> /etc/pacman.conf
+          echo -e "[deadyokai]\nServer = https://${{secrets.repo_auth}}@repo.vilafox.xyz/x86_64" >> /etc/pacman.conf
           sed -i "s/SigLevel/#SigLevel/g" /etc/pacman.conf
           sed -i "s/LocalFileSigLevel/#LocalFileSigLevel/g" /etc/pacman.conf
           sed -i "s/RemoteFileSigLevel/#RemoteFileSigLevel/g" /etc/pacman.conf
