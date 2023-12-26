@@ -57,6 +57,12 @@ jobs:
           cd /tmp/aegisub-arch1t3cht-git
           PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
+      - name: Build & Configure Qt5
+        run: |
+          git clone https://aur.archlinux.org/aegisub-arch1t3cht-qt5-git.git /tmp/aegisub-arch1t3cht-qt5-git
+          cd /tmp/aegisub-arch1t3cht-qt5-git
+          PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
+
       - name: Upload files
         run: |
           ls -la /tmp/x86_64/
