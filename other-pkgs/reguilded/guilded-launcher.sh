@@ -18,4 +18,4 @@ for line in "${MAPFILE[@]}"; do
   fi
 done
 
-exec /usr/bin/${electron} /usr/share/${name}/resources/app "${flags[@]}" "$@"
+exec /usr/bin/${electron} /usr/share/${name}/resources/app --ozone-platform-hint=auto "${flags[@]}" "$@"

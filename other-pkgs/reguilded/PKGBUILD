@@ -4,7 +4,7 @@
 _pkgname=guilded
 _electron=electron
 pkgname=reguilded
-pkgver=1.0.9224397+0.0.4a6
+pkgver=1.0.9236644+0.0.4a7
 pkgrel=2
 pkgdesc="Chat for Gaming Communities using the system provided electron for increased security and performance with ReGuilded"
 arch=('x86_64')
@@ -18,7 +18,7 @@ depends=("${_electron}" 'gtk3' 'libnotify' 'nss' 'libxss' 'libxtst' 'xdg-utils' 
 source=("${pkgname}-${pkgver}.deb::https://www.guilded.gg/downloads/Guilded-Linux.deb"
   'guilded-launcher.sh'
   'https://github.com/ReGuilded/ReGuilded/releases/latest/download/reguilded.asar')
-sha512sums=('d2767551b32e8cf4162d1fe8133bba302bdfc1c1ee3170c290ab6ac54a171c842bac59ee84a97ff0c0cc8afc2616ef200f8c7d429825b11b6b34535b795aaa8f'
+sha512sums=('fc7a9fd293feca29ad61d48930c06e6656e5b792945dbe2c15111d6a2ae5518364936746b3325f879fba3a24803d76c63a9dccf171b11f3e6f67c25b7f251e79'
 	  'SKIP'
 	  'SKIP')
 
