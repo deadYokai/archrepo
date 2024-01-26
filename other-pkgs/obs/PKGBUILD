@@ -132,7 +132,7 @@ prepare() {
   git config submodule.plugins/obs-websocket.url $srcdir/obs-websocket
   git -c protocol.file.allow=always submodule update
 
-  git apply $srcdir/ffmpeg.patch
+  # git apply $srcdir/ffmpeg.patch
 
 }
 
