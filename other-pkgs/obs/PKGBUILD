@@ -7,7 +7,7 @@
 
 pkgname=obs-studio-browser-dy
 pkgver=30.0.2
-pkgrel=6
+pkgrel=8
 pkgdesc="Free and open source software for video recording and live streaming. With everything except service integration"
 arch=("x86_64" "aarch64")
 url="https://github.com/obsproject/obs-studio"
@@ -107,18 +107,18 @@ conflicts=(
 )
 options=('debug')
 source=(
-  "obs-studio::git+https://github.com/obsproject/obs-studio.git"
+  "obs-studio::git+https://github.com/obsproject/obs-studio.git#commit=3fb529c0ee2ba6b6318ec4fea86fd96e655f10e5"
   "obs-browser::git+https://github.com/obsproject/obs-browser.git"
   "obs-websocket::git+https://github.com/obsproject/obs-websocket.git"
   "cef_binary_5060_linux64::https://cdn-fastly.obsproject.com/downloads/cef_binary_5060_linux64.tar.bz2"
-  "ffmpeg.patch::https://github.com/obsproject/obs-studio/pull/9935.patch"
+  "rtcfix.patch"
 )
 sha256sums=(
   "SKIP"
   "SKIP"
   "SKIP"
   "SKIP"
-  "SKIP"
+  "3a769abaee9f4f07b786b2ceeb6c517a0c27bfbb077af3c537406f1d38010aca"
 )
 
 if [[ $CARCH == 'x86_64' ]]; then
@@ -132,7 +132,7 @@ prepare() {
   git config submodule.plugins/obs-websocket.url $srcdir/obs-websocket
   git -c protocol.file.allow=always submodule update
 
-  # git apply $srcdir/ffmpeg.patch
+  git apply $srcdir/rtcfix.patch
 
 }
 
