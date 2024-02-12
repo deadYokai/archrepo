@@ -107,7 +107,7 @@ conflicts=(
 )
 options=('debug')
 source=(
-  "obs-studio::git+https://github.com/obsproject/obs-studio.git#commit=3fb529c0ee2ba6b6318ec4fea86fd96e655f10e5"
+  "obs-studio::git+https://github.com/obsproject/obs-studio.git#commit=ae1ab38de3fc8d06e3b059b96860800afc05222a"
   "obs-browser::git+https://github.com/obsproject/obs-browser.git"
   "obs-websocket::git+https://github.com/obsproject/obs-websocket.git"
   "cef_binary_5060_linux64::https://cdn-fastly.obsproject.com/downloads/cef_binary_5060_linux64.tar.bz2"
