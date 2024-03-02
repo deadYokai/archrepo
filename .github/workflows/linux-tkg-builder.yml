@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-20.04
     container:
         image: archlinux:latest
-        options: --oom-kill-disable --memory-swap -1
+        options: --oom-kill-disable --memory-swap "400m"
     
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the
