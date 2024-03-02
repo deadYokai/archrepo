@@ -57,7 +57,7 @@ jobs:
           git clone https://github.com/Frogging-Family/linux-tkg.git /tmp/linux
           cd /tmp/linux
           echo "Write config"
-          sed -i 's/_cpusched=\"\"/_cpusched=\"bore-eevdf\"/g' customization.cfg
+          sed -i 's/_cpusched=\"\"/_cpusched=\"eevdf\"/g' customization.cfg
           sed -i 's/_compiler=\"\"/_compiler=\"llvm\"/g' customization.cfg
           # sed -i 's/_lto_mode=\"\"/_lto_mode=\"full\"/g' customization.cfg
           sed -i 's/_lto_mode=\"\"/_lto_mode=\"no\"/g' customization.cfg
@@ -74,7 +74,7 @@ jobs:
           sed -i 's/_diffconfig=\"\"/_diffconfig=\"false\"/g' customization.cfg
           sed -i 's/_waydroid=\"\"/_waydroid=\"true\"/g' customization.cfg
           sed -i 's/_winesync=\"false\"/_winesync=\"true\"/g' customization.cfg
-          echo -e "_custom_pkgbase=\"linux-tkg-bore-eevdf-llvm\"\n" >> customization.cfg
+          echo -e "_custom_pkgbase=\"linux-tkg-eevdf-llvm\"\n" >> customization.cfg
           cat customization.cfg
           echo | PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
