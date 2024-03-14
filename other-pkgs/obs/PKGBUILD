@@ -110,7 +110,7 @@ source=(
   "obs-studio::git+https://github.com/obsproject/obs-studio.git#commit=0cc6068ed4e673fbade63e954233b00f7862be05"
   "obs-browser::git+https://github.com/obsproject/obs-browser.git"
   "obs-websocket::git+https://github.com/obsproject/obs-websocket.git"
-  "cef_binary_5060_linux64::https://cdn-fastly.obsproject.com/downloads/cef_binary_5060_linux_x86_64_v3.tar.xz"
+  "cef_binary_5060_linux_x86_64::https://cdn-fastly.obsproject.com/downloads/cef_binary_5060_linux_x86_64_v3.tar.xz"
 )
 sha256sums=(
   "SKIP"
@@ -149,7 +149,7 @@ build() {
     -DOBS_VERSION_OVERRIDE="$pkgver" \
     -DENABLE_AJA=OFF \
     -DENABLE_WEBRTC=ON \
-    -DCEF_ROOT_DIR="$srcdir/cef_binary_5060_linux64" \
+    -DCEF_ROOT_DIR="$srcdir/cef_binary_5060_linux_x86_64" \
     -DOAUTH_BASE_URL="https://api.vilafox.xyz/obs-auth/" \
     -DTWITCH_CLIENTID="b2bllaryafosluaw7sxfx93wwvx21v" \
     -DTWITCH_HASH="0" \
