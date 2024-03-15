@@ -13,7 +13,7 @@ sha256sums=('SKIP')
 
 
 build() {
-    cmake -B build -S "${pkgname%-git}" -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DCMAKE_INSTALL_PREFIX=`kf5-config --prefix` -DCMAKE_INSTALL_PREFIX='/usr' -DCMAKE_BUILD_TYPE=Release
+    cmake -B build -S "${pkgname%-git}" -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DBUILD_WITH_QT6=ON -DCMAKE_INSTALL_PREFIX='/usr' -DCMAKE_BUILD_TYPE=Release
     cmake --build build
 }
 
