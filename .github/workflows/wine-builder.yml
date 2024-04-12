@@ -29,7 +29,7 @@ jobs:
       - name: Setup container
         run: |
           echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
-          pacman -Syu --noconfirm base-devel sudo git archlinux-keyring wget linux-headers rsync openssh
+          pacman -Syu --noconfirm base-devel sudo git archlinux-keyring wget linux-headers rsync openssh pipewire-jack lib32-gtk3 gtk3 vkd3d lib32-vkd3d gcc gcc-objc
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
           sed -i 's,exit $E_ROOT,echo but you know what you do,' /usr/bin/makepkg
           echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"128753272FB3D91D\"" >> /etc/makepkg.conf
