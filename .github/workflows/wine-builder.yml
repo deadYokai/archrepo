@@ -48,14 +48,11 @@ jobs:
 
       - name: Build Wine Staging
         run: |
-          git clone https://aur.archlinux.org/wine-staging-git.git /tmp/wine
+          git clone https://github.com/Frogging-Family/wine-tkg-git.git /tmp/wine
           cd /tmp/wine
-          sed -i "s/wine-staging-git/wine-staging-patched-git/g" PKGBUILD
-          sed -i "s/install=\"\${pkgname}.install\"//g" PKGBUILD
-          wget -O childwindow.patch 'https://raw.githubusercontent.com/Frogging-Family/wine-tkg-git/master/wine-tkg-git/wine-tkg-patches/misc/childwindow/childwindow-proton.patch'
-          sed -i "s/build() {/build() {\n patch -d \"\${srcdir}\/wine\" -p1 -i \"\/tmp\/wine\/childwindow.patch\"\n export CC=clang\n export CXX=clang\n export  CFLAGS=\"-g\"/g" PKGBUILD
-          sed -i "s/--with-gstreamer/--with-gstreamer --with-vulkan --with-wayland /g" PKGBUILD
-          yes|PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
+          wget -O wine-tkg-git/wine-tkg-profiles/wine-amd-yoki.cfg https://github.com/deadYokai/archrepo/raw/main/other-pkgs/wine/wine-amd-yoki.cfg
+          sed -i "s/_LOCAL_PRESET=\"\"/_LOCAL_PRESET=\"wine-amd-yoki\"/g" customization.cfg
+          PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
       - name: Upload files
         run: |
