@@ -62,7 +62,7 @@ jobs:
           +        width += 4 - (width % 4);\n\
           +\n\
               return NtGdiCreateBitmap( width, height, planes, bpp, bits );\n\
-          }" > adobe.patch
+          }\n" > adobe.patch
           wget -O childwindow.patch 'https://raw.githubusercontent.com/Frogging-Family/wine-tkg-git/master/wine-tkg-git/wine-tkg-patches/misc/childwindow/childwindow-proton.patch'
           sed -i "s/build() {/build() {\n patch -d \"\${srcdir}\/wine\" -p0 -i \"\/tmp\/wine\/adobe.patch\"\n patch -d \"\${srcdir}\/wine\" -p1 -i \"\/tmp\/wine\/childwindow.patch\"\n export CC=clang\n export CXX=clang\n export  CFLAGS=\"-g\"/g" PKGBUILD
           sed -i "s/--with-gstreamer/--with-gstreamer --with-vulkan --with-wayland /g" PKGBUILD
