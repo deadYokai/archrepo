@@ -52,17 +52,17 @@ jobs:
           cd /tmp/wine
           sed -i "s/wine-staging-git/wine-staging-patched-git/g" PKGBUILD
           sed -i "s/install=\"\${pkgname}.install\"//g" PKGBUILD
-          echo "--- dlls/gdi32/objects.c \
-          +++ dlls/gdi32/objects.c \
-          @@ -610,6 +610,9 @@ HBITMAP WINAPI CreateBitmap( INT width, INT height, UINT planes, \
-               if (!width || !height) \
-                   return GetStockObject( STOCK_LAST + 1 ); /* default 1x1 bitmap */ \
-          \
-          +    if (width % 4 > 0) \
-          +        width += 4 - (width % 4); \
-          + \
-               return NtGdiCreateBitmap( width, height, planes, bpp, bits ); \
-           } " > adobe.patch
+          echo -e "--- dlls/gdi32/objects.c \n\                                                                                          ─╯
+          +++ dlls/gdi32/objects.c \n\
+          @@ -610,6 +610,9 @@ HBITMAP WINAPI CreateBitmap( INT width, INT height, UINT planes,\n\
+              if (!width || !height)\n\
+                  return GetStockObject( STOCK_LAST + 1 ); /* default 1x1 bitmap */\n\
+          \n\
+          +    if (width % 4 > 0) \n\
+          +        width += 4 - (width % 4);\n\
+          +\n\
+              return NtGdiCreateBitmap( width, height, planes, bpp, bits );\n\
+          }" > adobe.patch
           wget -O childwindow.patch 'https://raw.githubusercontent.com/Frogging-Family/wine-tkg-git/master/wine-tkg-git/wine-tkg-patches/misc/childwindow/childwindow-proton.patch'
           sed -i "s/build() {/build() {\n patch -d \"\${srcdir}\/wine\" -p0 -i \"\/tmp\/wine\/adobe.patch\"\n patch -d \"\${srcdir}\/wine\" -p1 -i \"\/tmp\/wine\/childwindow.patch\"\n export CC=clang\n export CXX=clang\n export  CFLAGS=\"-g\"/g" PKGBUILD
           sed -i "s/--with-gstreamer/--with-gstreamer --with-vulkan --with-wayland /g" PKGBUILD
