@@ -50,8 +50,8 @@ jobs:
         run: |
           git clone https://github.com/Frogging-Family/wine-tkg-git.git /tmp/wine
           cd /tmp/wine/wine-tkg-git
-          wget -O wine-tkg-profiles/wine-amd-yoki.cfg https://github.com/deadYokai/archrepo/raw/main/other-pkgs/wine/wine-amd-yoki.cfg
-          sed -i "s/_LOCAL_PRESET=\"\"/_LOCAL_PRESET=\"wine-amd-yoki\"/g" customization.cfg
+          wget -O wine-tkg-profiles/wine-tkg-amd-yoki.cfg https://github.com/deadYokai/archrepo/raw/main/other-pkgs/wine/wine-amd-yoki.cfg
+          sed -i "s/_LOCAL_PRESET=\"\"/_LOCAL_PRESET=\"amd-yoki\"/g" customization.cfg
           PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
       - name: Upload files
