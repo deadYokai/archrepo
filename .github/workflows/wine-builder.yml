@@ -48,9 +48,7 @@ jobs:
 
       - name: Install Winesync header
         run: |
-          git clone https://aur.archlinux.org/winesync.git /tmp/winesync
-          cg /tmp/winesync
-          makepkg --noconfirm -si
+          wget -O /usr/include/linux/winesync.h "https://repo.or.cz/linux/zf.git/blob_plain/9ac10c6e711ec096274ecc676ae83a7cf2a1213f:/include/uapi/linux/winesync.h"
           
       - name: Build Wine Staging
         run: |
