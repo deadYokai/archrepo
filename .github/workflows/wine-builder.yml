@@ -46,6 +46,12 @@ jobs:
           gpg_private_key: ${{ secrets.PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASS }}
 
+      - name: Install Winesync header
+        run: |
+          git clone https://aur.archlinux.org/winesync.git /tmp/winesync
+          cg /tmp/winesync
+          makepkg --noconfirm -si
+          
       - name: Build Wine Staging
         run: |
           git clone https://github.com/Frogging-Family/wine-tkg-git.git /tmp/wine
