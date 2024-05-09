@@ -48,7 +48,7 @@ jobs:
 
       - name: Install Winesync header
         run: |
-          wget -O /usr/include/linux/winesync.h "https://repo.or.cz/linux/zf.git/blob_plain/9ac10c6e711ec096274ecc676ae83a7cf2a1213f:/include/uapi/linux/winesync.h"
+          wget -O /usr/include/linux/ntsync.h "https://repo.or.cz/linux/zf.git/blob_plain/67ecf76b95fcaf9a70e54b0d25b485f4e135e439:/include/uapi/linux/ntsync.h"
           
       - name: Build Wine Staging
         run: |
