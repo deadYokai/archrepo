@@ -49,7 +49,6 @@ depends=(
   "wayland" # Deps of libobs, libobs-opengl and CEF
   "x264" # Deps of the X264 plugin
   "zlib" # Deps of libobs
-  "ffnvcodec-headers"
 
   # Deps of CEF
   "at-spi2-core" "dbus" "expat" "libcups" "libdrm" "libxdamage"
@@ -155,6 +154,7 @@ build() {
     -DOAUTH_BASE_URL="https://api.vilafox.xyz/obs-auth/" \
     -DTWITCH_CLIENTID="b2bllaryafosluaw7sxfx93wwvx21v" \
     -DTWITCH_HASH="0" \
+    -DENABLE_NATIVE_NVENC=OFF \
     -Wno-dev
 
     sed -i "s|#define OBS_VERSION |#define OBS_VERSION \"$pkgver-browser-$pkgrel\" //|" build/config/obsconfig.h
