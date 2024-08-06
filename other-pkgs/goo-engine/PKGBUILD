@@ -195,6 +195,7 @@ build() {
                 -DWITH_INSTALL_PORTABLE=OFF
                 -DWITH_LIBS_PRECOMPILED=OFF
                 -DWITH_STATIC_LIBS=OFF
+                -DWITH_CYCLES_OSL=OFF
                 -DXR_OPENXR_SDK_ROOT_DIR=/usr
                 -DPYTHON_VERSION="${_pyver}"
                 "${_CMAKE_FLAGS[@]}"
