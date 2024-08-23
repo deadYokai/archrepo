@@ -6,46 +6,48 @@
 # Contributor: ledti <antergist at gmail dot com>
 
 pkgname=obs-studio-browser-dy
-pkgver=30.2.0
-_pkgtag=30.2.0-rc1
+pkgver=30.2.3
+_pkgtag=30.2.3
 pkgrel=1
 pkgdesc="Free and open source software for video recording and live streaming. With everything except service integration"
 arch=("x86_64" "aarch64")
 url="https://github.com/obsproject/obs-studio"
-license=("GPL3")
-# To manage dependency rebuild easily, this will prevent you to rebuild OBS on non-updated system
-_mbedtlsver=3.4
-_pythonver=3.11
+license=("GPL-2.0-or-later")
+
+_qtver=6.6.2
+_libajantv2ver=17.0.1
+_libdatachannelver=0.21
+_mbedtlsver=3.6
+_pythonver=3.12
 depends=(
   "alsa-lib" # Deps of ALSA plugin and CEF
   "curl" # Deps of OBS Studio and rtmp-services plugin
   "ffmpeg>=6.1" # Deps of OBS Studio and FFmpeg plugin
   "fontconfig" # Deps of Freetype2 plugin
   "freetype2" # Deps of Freetype2 plugin
-  "ftl-sdk" # Deps of Outputs plugin
-  "gcc-libs" # Deps of any C related binary
+  "gcc-libs" # Deps of any C++ related binary
   "glib2" # Deps of libobs, PipeWire plugin and CEF
-  "glibc" # Deps of any C++ related binary
+  "glibc" # Deps of any C related binary
   "jansson" # Deps of libobs and rtmp-services plugin
   "libgl" # Deps of libobs-opengl and OBS Studio
   "libpipewire" # Deps of the PipeWire plugin
   "libpulse" # Deps of PulseAudio monitoring (in libobs) and PulseAudio plugin
   "librist" # Deps of FFmpeg plugin
-  "libva" # Deps of FFmpeg plugin
+  "libva" # Deps of FFmpeg plugin and QSV plugin
   "libx11" # Deps of libobs, libobs-opengl, X11 Capture plugin, frontend tools plugin, obs-browser and CEF
   "libxcb" # Deps of libobs-opengl, X11 Capture plugin and CEF
   "libxcomposite" # Deps of the X11 capture plugin
   "libxkbcommon" # Deps of libobs, OBS Studio and CEF
   "mbedtls>=$_mbedtlsver" # Deps of OBS Studio and Outputs plugin
   "pciutils" # Deps of FFmpeg plugin
-  "qt6-base" # Deps of OBS Studio and any frontend plugin
-  "qt6-svg" # Deps of OBS Studio
-  "qt6-wayland" # Needed to use Qt on Wayland platform
+  "qrcodegencpp-cmake" # Deps of Websocket plugin
+  "qt6-base>=$_qtver" # Deps of OBS Studio and any frontend plugin
+  "qt6-svg>=$_qtver" # Deps of OBS Studio
+  "qt6-wayland>=$_qtver" # Needed to use Qt on Wayland platform
   "rnnoise" # Deps if the filter plugin
   "speexdsp" # Deps if the filter plugin
   "srt" # Deps of FFmpeg plugin
   "util-linux-libs" # Deps of libobs
-  "vlc-luajit" # Deps of VLC Plugin ("vlc" issue crashes)
   "wayland" # Deps of libobs, libobs-opengl and CEF
   "x264" # Deps of the X264 plugin
   "zlib" # Deps of libobs
@@ -68,10 +70,12 @@ makedepends=(
   "jack" # Deps of JACK plugin
   "git"
   "uthash" # Deps of libobs
-  "libajantv2" # Deps of AJA plugin (static lib)
+  "libajantv2>=$_libajantv2ver" # Deps of AJA plugins
+  "libdatachannel>=$_libdatachannelver" # Deps of WebRTC plugin (NICE variant like the Flatpak)
   "libfdk-aac" # Deps of FDK AAC plugin
   "luajit" # Deps of Scripting plugin
   "nlohmann-json" # Deps of Websocket plugin (headers-only lib)
+  "libvpl" # Deps of QSV plugin
   "python>=$_pythonver" # Deps of Scripting plugin
   "sndio" # Deps of sndio plugin
   "swig" # Deps of Scripting plugin
@@ -89,9 +93,12 @@ makedepends=(
 optdepends=(
   "jack: JACK support"
   "libfdk-aac: FDK AAC codec support"
-  "intel-media-driver: Hardware encoding (>= Broadwell)"
-  "libva-intel-driver: Hardware encoding (<= Haswell)"
-  "libva-mesa-driver: Hardware encoding"
+  "libvpl: QSV encoder support"
+  "intel-media-sdk: QSV encoder support(<= Rocket Lake & >= Broadwell)"
+  "vpl-gpu-rt: QSV encoder support (>= Alder Lake)"
+  "intel-media-driver: VAAPI encoder support (>= Broadwell)"
+  "libva-intel-driver: VAAPI encoder support (<= Haswell)"
+  "libva-mesa-driver: VAAPI encoder support"
   "swig: Scripting"
   "luajit: Lua scripting"
   "python>=$_pythonver: Python scripting"
@@ -99,6 +106,8 @@ optdepends=(
   "v4l-utils: V4L2 support"
   "systemd-libs: V4L2 support"
   "v4l2loopback-dkms: V4L2 virtual camera output"
+  "libdatachannel>=$_libdatachannelver: WHIP Support"
+  "libajantv2>=$_libajantv2ver: AJA support"
 )
 provides=("obs-studio=$pkgver" "obs-vst" "obs-websocket" "obs-browser")
 conflicts=(
@@ -111,12 +120,18 @@ source=(
   "obs-studio::git+https://github.com/obsproject/obs-studio.git#tag=$_pkgtag"
   "obs-browser::git+https://github.com/obsproject/obs-browser.git"
   "obs-websocket::git+https://github.com/obsproject/obs-websocket.git"
+  "ftl-sdk::git+https://github.com/microsoft/ftl-sdk.git"
+  "supported-nv-codec-headers::git+https://github.com/FFmpeg/nv-codec-headers.git#tag=n12.1.14.0"
+  "0004-Max_tls_v1_2_mbedtls_3_6_0_workaround.patch"
   "cef_binary_5060_linux_x86_64::https://cdn-fastly.obsproject.com/downloads/cef_binary_5060_linux_x86_64_v3.tar.xz"
 )
 sha256sums=(
   "SKIP"
   "SKIP"
   "SKIP"
+  "SKIP"
+  "SKIP"
+  "c397a8da291547c757a42f7727a5e6650aa70e6e531f2ef150356eb9eb1fb49c"
   "SKIP"
 )
 
@@ -129,19 +144,29 @@ prepare() {
   cd "$srcdir/obs-studio"
   git config submodule.plugins/obs-browser.url $srcdir/obs-browser
   git config submodule.plugins/obs-websocket.url $srcdir/obs-websocket
+  git config submodule.plugins/obs-outputs/ftl-sdk.url $srcdir/ftl-sdk
   git -c protocol.file.allow=always submodule update
+
+  # MbedTLS 3.6.0 broke stuff with TLS v1.3 (Thanks tytan652)
+  patch -Np1 -i "$srcdir/0004-Max_tls_v1_2_mbedtls_3_6_0_workaround.patch"
+
+  cd "$srcdir"
+  make PREFIX="$srcdir/nv-prefix" -C supported-nv-codec-headers install
 
 
 }
 
 build() {
-  export CXXFLAGS="$CXXFLAGS -Wno-error=dangling-reference"
+  export PKG_CONFIG_PATH="${srcdir}/nv-prefix/lib/pkgconfig"
+  export TWITCH_HASH=0
+  export TWITCH_CLIENTID="b2bllaryafosluaw7sxfx93wwvx21v"
 
   cmake -B build -S obs-studio \
-    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_BUILD_TYPE=None \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DENABLE_RTMPS=ON \
+    -DOBS_CMAKE_VERSION=3 \
     -DQT_VERSION=6 \
     -DENABLE_LIBFDK=ON \
     -DENABLE_JACK=ON \
@@ -150,12 +175,13 @@ build() {
     -DOBS_VERSION_OVERRIDE="$pkgver" \
     -DENABLE_AJA=OFF \
     -DENABLE_WEBRTC=ON \
+    -DOBS_COMPILE_DEPRECATION_AS_WARNING=ON \
     -DCEF_ROOT_DIR="$srcdir/cef_binary_5060_linux_x86_64" \
     -DOAUTH_BASE_URL="https://api.vilafox.xyz/obs-auth/" \
     -DTWITCH_CLIENTID="b2bllaryafosluaw7sxfx93wwvx21v" \
     -DTWITCH_HASH="0" \
-    -DENABLE_NATIVE_NVENC=OFF \
-    -Wno-dev
+    -Wno-dev \
+    -DCMAKE_INCLUDE_PATH="${srcdir}/nv-prefix/include:/usr/include"
 
     sed -i "s|#define OBS_VERSION |#define OBS_VERSION \"$pkgver-browser-$pkgrel\" //|" build/config/obsconfig.h
 
