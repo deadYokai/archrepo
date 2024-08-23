@@ -60,12 +60,12 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - name: build vlc-luajit
-        run: |
-          git clone https://aur.archlinux.org/vlc-luajit.git
-          cd vlc-luajit
-          PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
-          pacman -Syy
+      # - name: build vlc-luajit
+      #   run: |
+      #     git clone https://aur.archlinux.org/vlc-luajit.git
+      #     cd vlc-luajit
+      #     PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
+      #     pacman -Syy
 
       - name: Build OBS
         run: |
