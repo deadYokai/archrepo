@@ -51,6 +51,7 @@ depends=(
   "wayland" # Deps of libobs, libobs-opengl and CEF
   "x264" # Deps of the X264 plugin
   "zlib" # Deps of libobs
+  "vlc-luajit"
 
   # Deps of CEF
   "at-spi2-core" "dbus" "expat" "libcups" "libdrm" "libxdamage"
