@@ -48,7 +48,7 @@ jobs:
 
       - name: Install Winesync header
         run: |
-          wget -O /usr/include/linux/ntsync.h "https://raw.githubusercontent.com/zen-kernel/zen-kernel/f787614c40519eb2c8ebdc116b2cd09d46e5ec85/include/uapi/linux/ntsync.h"
+          wget -O /usr/include/linux/ntsync.h "https://raw.githubusercontent.com/zen-kernel/zen-kernel/v6.10.1-zen1/include/uapi/linux/ntsync.h"
           
       - name: Build Wine Staging
         run: |
