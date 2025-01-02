@@ -44,6 +44,7 @@ jobs:
           mkdir /tmp/x86_64
           cd /tmp/x86_64/
           echo "${{ secrets.PRIVATE_KEY }}" > comm.pk
+          echo "${{ secrets.RSYNC_COMMAND }}" > comm.tx
           eval "${{ secrets.RSYNC_COMMAND }}"
           
           
