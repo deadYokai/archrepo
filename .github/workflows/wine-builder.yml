@@ -58,7 +58,13 @@ jobs:
           sed -i "s/_LOCAL_PRESET=\"\"/_LOCAL_PRESET=\"amd-yoki\"/g" customization.cfg
           PKGDEST=/tmp/x86_64 makepkg --noconfirm -s --sign
 
+      - name: Fail check
+        if: failure()
+        run: |
+          cat /tmp/wine/wine-tkg-git/prepare.log
+          
       - name: Upload files
+        if: success()
         run: |
           ls -la /tmp/x86_64/
           cd /tmp/x86_64/
