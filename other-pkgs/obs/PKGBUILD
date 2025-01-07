@@ -124,7 +124,7 @@ source=(
   "ftl-sdk::git+https://github.com/microsoft/ftl-sdk.git"
   "supported-nv-codec-headers::git+https://github.com/FFmpeg/nv-codec-headers.git#tag=n12.1.14.0"
   "0004-Max_tls_v1_2_mbedtls_3_6_0_workaround.patch"
-  "cef_binary_5060_linux_x86_64::https://cdn-fastly.obsproject.com/downloads/cef_binary_5060_linux_x86_64_v3.tar.xz"
+  "cef_binary_6533_linux_x86_64:: https://cdn-fastly.obsproject.com/downloads/cef_binary_6533_linux_x86_64.tar.xz"
 )
 sha256sums=(
   "SKIP"
@@ -175,7 +175,7 @@ build() {
     -DENABLE_AJA=OFF \
     -DENABLE_WEBRTC=ON \
     -DOBS_COMPILE_DEPRECATION_AS_WARNING=ON \
-    -DCEF_ROOT_DIR="$srcdir/cef_binary_5060_linux_x86_64" \
+    -DCEF_ROOT_DIR="$srcdir/cef_binary_6533_linux_x86_64" \
     -DTWITCH_HASH="0" \
     -DTWITCH_CLIENTID="b2bllaryafosluaw7sxfx93wwvx21v" \
     -DOAUTH_BASE_URL="https://api.vilafox.xyz/obs-auth/" \
