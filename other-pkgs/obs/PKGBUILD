@@ -124,7 +124,7 @@ source=(
   "ftl-sdk::git+https://github.com/microsoft/ftl-sdk.git"
   "supported-nv-codec-headers::git+https://github.com/FFmpeg/nv-codec-headers.git#tag=n12.1.14.0"
   "0004-Max_tls_v1_2_mbedtls_3_6_0_workaround.patch"
-  "cef_binary_6533_linux_x86_64:: https://cdn-fastly.obsproject.com/downloads/cef_binary_6533_linux_x86_64.tar.xz"
+  "cef_binary_6533_linux_x86_64::https://cdn-fastly.obsproject.com/downloads/cef_binary_6533_linux_x86_64.tar.xz"
 )
 sha256sums=(
   "SKIP"
