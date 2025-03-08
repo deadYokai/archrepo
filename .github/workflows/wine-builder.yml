@@ -31,7 +31,6 @@ jobs:
           echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
           pacman -Syu --noconfirm base-devel sudo git archlinux-keyring wget linux-headers rsync openssh pipewire-jack lib32-gtk3 gtk3 vkd3d lib32-vkd3d gcc gcc-objc clang pipewire-jack lib32-pipewire-jack
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
-          #pacman --noconfirm -U https://archive.archlinux.org/packages/b/binutils/binutils-2.43_1%2Br186%2Bg61f8adadd6db-1-x86_64.pkg.tar.zst
           sed -i 's,exit $E_ROOT,echo but you know what you do,' /usr/bin/makepkg
           echo -e "PACKAGER=\"Ihor Yemaiev <mynameiskitsune@proton.me>\"\nGPGKEY=\"128753272FB3D91D\"" >> /etc/makepkg.conf
           mkdir -p /root/.ssh/
@@ -49,7 +48,7 @@ jobs:
 
       - name: Install Winesync header
         run: |
-          wget -O /usr/include/linux/ntsync.h "https://raw.githubusercontent.com/deadYokai/archrepo/refs/heads/main/other-pkgs/wine/ntsync.h"
+          wget -O /usr/include/linux/ntsync.h "https://raw.githubusercontent.com/torvalds/linux/13845bdc869f136f92ad3d40ea09b867bb4ce467/include/uapi/linux/ntsync.h"
           
       - name: Build Wine Staging
         run: |
